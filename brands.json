@@ -1,42 +1,82 @@
 [
   {
-    "id": "brand_001",
-    "name": "Old Giraffe Studio",
-    "category": "Stationery",
-    "item": "Hand-illustrated Dated Planner",
-    "price": "₹850",
-    "archetype": "The Aesthetic Organizer",
-    "why": "Because they love organizing their thoughts and appreciate beautiful, handmade paper goods.",
-    "url": "https://www.instagram.com/oldgiraffestudio/"
+    "name": "Interflora India",
+    "category": "Flowers & Botanicals",
+    "item": "Luxury Floral Arrangement",
+    "price": "₹1,500+",
+    "why": "For when the flowers arriving need to make them actually say 'wow'. Premium presentation for someone who appreciates real luxury.",
+    "url": "https://interflora.in/"
   },
   {
-    "id": "brand_002",
-    "name": "Studio Kohl",
-    "category": "Art & Decor",
-    "item": "Contemporary Art Print",
-    "price": "₹1200",
-    "archetype": "The Visual Soul",
-    "why": "For their aesthetic soul—this will look perfect in that quiet reading corner they love.",
-    "url": "https://studiokohl.com/"
+    "name": "The Flora",
+    "category": "Flowers & Botanicals",
+    "item": "Studio-style Artisanal Bouquet",
+    "price": "₹999",
+    "why": "Because they deserve flowers that actually look considered and aesthetic, not just a generic vendor bunch.",
+    "url": "https://theflora.in/"
   },
   {
-    "id": "brand_003",
-    "name": "Subko Coffee",
-    "category": "Food & Beverage",
-    "item": "Specialty Cacao & Coffee Box",
-    "price": "₹1500",
-    "archetype": "The Maker Foodie",
-    "why": "Because their perfect Sunday involves brewing a meticulous cup and appreciating the craft of local roasters.",
-    "url": "https://www.subkocoffee.com/"
+    "name": "Jellycat",
+    "category": "Collectible Plush",
+    "item": "Bashful Bunny or Amuseables",
+    "price": "₹2,500",
+    "why": "For the person who has sent you a Jellycat meme at least once. The original Gen Z plush obsession.",
+    "url": "https://jellycat.com/"
   },
   {
-    "id": "brand_004",
-    "name": "Nappa Dori",
-    "category": "Leather Goods",
-    "item": "Classic Leather Macaron Tray",
-    "price": "₹2200",
-    "archetype": "The Classic Minimalist",
-    "why": "To appeal to their love for timeless, durable, and understated desktop organization.",
-    "url": "https://www.nappadori.com/"
+    "name": "Pop Mart / Labubu",
+    "category": "Collectible Plush",
+    "item": "The Monsters Blind Box",
+    "price": "₹2,500+",
+    "why": "For the trendsetter who has been seeing Labubu on every Instagram story and finally wants one of their own.",
+    "url": "https://luxurycultindia.com/"
+  },
+  {
+    "name": "Bored Game Company",
+    "category": "Board Games",
+    "item": "A Premium Strategy Game",
+    "price": "₹1,500",
+    "why": "To fuel their competitive edge during game nights. Sourced from India's most trusted board game retailer.",
+    "url": "https://in.boredgamecompany.com/"
+  },
+  {
+    "name": "Skillmatics",
+    "category": "Card Games",
+    "item": "Guess in 10 or Found It",
+    "price": "₹499",
+    "why": "A screen-free, portable card game that makes gifting a game feel thoughtful, not generic.",
+    "url": "https://skillmatics.in/"
+  },
+  {
+    "name": "The Plated Project",
+    "category": "Art Prints & Posters",
+    "item": "Curated Gallery Wall Set",
+    "price": "₹1,200",
+    "why": "To make their wall feel curated, not cluttered. Every piece from this indie brand is an object, not just a print.",
+    "url": "https://theplatedproject.com/"
+  },
+  {
+    "name": "Ekibeki",
+    "category": "Art Prints",
+    "item": "Quiet Indian Illustrator Print",
+    "price": "₹500",
+    "why": "For someone who wants their space to carry something beautifully illustrated and deeply personal.",
+    "url": "https://ekibeki.com/"
+  },
+  {
+    "name": "The Revolver Club",
+    "category": "Vinyl Records",
+    "item": "Curated Indie Vinyl Record",
+    "price": "₹2,000",
+    "why": "Because their perfect Sunday involves dropping a needle on a record and deep-listening to their favorite album.",
+    "url": "https://therevolverclub.com/"
+  },
+  {
+    "name": "Music Circle",
+    "category": "Vinyl Records",
+    "item": "Rare Bollywood/Classical Vinyl",
+    "price": "₹1,500+",
+    "why": "For the old soul. This is the absolute best vintage Indian music on vinyl—no one else comes close.",
+    "url": "https://musiccircle.co.in/"
   }
 ]
