@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftSense | AI Gift Intelligence</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkGreen: "#055047",
+            ink: "#1a1a1a",
+            cream: "#ffffeb",
+            creamAlt: "#ffffea",
+            lavender: "#efd5ff",
+            orange: "#ffa847",
+            coral: "#ff6b4c"
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"DM Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #055047;
+      color: #ffffeb;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Elegant Text Utilities */
+    .tracking-tighter { letter-spacing: -0.04em; }
+    .text-outline {
+      color: transparent;
+      -webkit-text-stroke: 1px #ffffeb;
+    }
+    .text-outline-dark {
+      color: transparent;
+      -webkit-text-stroke: 1.5px #1a1a1a;
+    }
+
+    /* Marquee Animation */
+    .marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .marquee-content {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Card Hover Effects */
+    .editorial-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .editorial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 4px 4px 0px #1a1a1a;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-coral selection:text-ink">
+
+  <section class="min-h-screen flex flex-col relative px-6 md:px-12 py-6 border-b border-cream/20">
+    <nav class="flex justify-between items-center z-10 border-b border-cream/20 pb-6 mb-12">
+      <div class="font-serif font-bold text-2xl tracking-tight lowercase">giftsense ✦</div>
+      <div class="hidden md:flex gap-8 font-sans text-sm uppercase tracking-widest">
+        <a href="#" class="hover:text-coral transition-colors">How it works</a>
+        <a href="#" class="hover:text-coral transition-colors">Manifesto</a>
+        <a href="#" class="hover:text-coral transition-colors">Indie Brands</a>
+      </div>
+      <button class="bg-coral text-ink border border-ink px-6 py-2 rounded-full font-sans text-sm font-semibold uppercase tracking-widest hover:bg-orange transition-colors">
+        Try Beta
+      </button>
+    </nav>
+
+    <div class="flex-1 flex flex-col justify-center items-center text-center z-10 max-w-5xl mx-auto w-full pb-20">
+      <div class="text-orange text-sm uppercase tracking-[0.2em] font-semibold mb-6">
+        ✦ AI-Powered Gift Intelligence ✦
+      </div>
+      <h1 class="font-serif text-6xl md:text-8xl lg:text-[110px] leading-[0.9] tracking-tighter mb-8 text-cream">
+        Stop scrolling. <br>
+        <span class="italic font-light text-lavender">Start finding.</span>
+      </h1>
+      <p class="font-sans text-lg md:text-xl max-w-2xl text-cream/80 mb-12 leading-relaxed">
+        GiftSense is a conversational AI that learns who you're gifting, maps their personality, and recommends thoughtful gifts from India's best independent brands.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button class="bg-orange text-ink border border-ink px-8 py-4 rounded-full font-sans text-base font-semibold uppercase tracking-widest hover:bg-coral transition-all transform hover:scale-105">
+          Find a Gift Now
+        </button>
+        <button class="bg-transparent text-cream border border-cream/30 px-8 py-4 rounded-full font-sans text-base font-semibold uppercase tracking-widest hover:bg-cream/10 transition-all">
+          Explore Brands
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="bg-orange text-ink py-4 marquee-container font-serif text-2xl md:text-4xl italic tracking-tight">
+    <div class="marquee-content">
+      SUPPORT INDIAN CREATORS ✦ MAKE THEM FEEL SEEN ✦ NO MORE BORING MUGS ✦ FIND THE PERFECT GIFT ✦ SUPPORT INDIAN CREATORS ✦ MAKE THEM FEEL SEEN ✦ NO MORE BORING MUGS ✦ FIND THE PERFECT GIFT ✦
+    </div>
+  </div>
+
+  <section class="bg-cream text-ink py-24 px-6 md:px-12 relative border-b border-ink">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-end gap-8">
+        <h2 class="font-serif text-5xl md:text-7xl leading-none tracking-tighter max-w-2xl">
+          We don't have a gifting problem. <br>
+          <span class="italic text-outline-dark">We have an attention problem.</span>
+        </h2>
+        <p class="font-sans text-lg max-w-sm">
+          87% of people find gift-giving stressful. We built an AI assistant designed around personality, not product categories.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="editorial-card bg-creamAlt border border-ink rounded-3xl p-8 flex flex-col">
+          <div class="text-4xl mb-6 text-darkGreen">01</div>
+          <h3 class="font-serif text-3xl mb-4 tracking-tight">Tell us about them</h3>
+          <p class="font-sans text-ink/70 leading-relaxed mb-8 flex-1">
+            Have a quick chat with our AI. Tell us what they geek out over, how they spend a quiet Sunday, and what makes them tick.
+          </p>
+          <div class="w-12 h-12 rounded-full border border-ink flex items-center justify-center text-xl">✦</div>
+        </div>
+
+        <div class="editorial-card bg-lavender border border-ink rounded-3xl p-8 flex flex-col">
+          <div class="text-4xl mb-6 text-darkGreen">02</div>
+          <h3 class="font-serif text-3xl mb-4 tracking-tight">AI maps their archetype</h3>
+          <p class="font-sans text-ink/70 leading-relaxed mb-8 flex-1">
+            Are they an 'Aesthetic Reader' or a 'Maker Foodie'? Our engine maps their personality to find gifts that genuinely resonate.
+          </p>
+          <div class="w-12 h-12 rounded-full border border-ink flex items-center justify-center text-xl bg-cream">✦</div>
+        </div>
+
+        <div class="editorial-card bg-coral border border-ink rounded-3xl p-8 flex flex-col">
+          <div class="text-4xl mb-6 text-ink">03</div>
+          <h3 class="font-serif text-3xl mb-4 tracking-tight text-ink">Discover indie brands</h3>
+          <p class="font-sans text-ink/80 leading-relaxed mb-8 flex-1">
+            Get 3 highly curated suggestions from our database of India's best independent creators, ceramicists, and artists.
+          </p>
+          <div class="w-12 h-12 rounded-full border border-ink flex items-center justify-center text-xl bg-orange">✦</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-lavender text-ink py-24 px-6 md:px-12 border-b border-ink">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <div class="flex-1">
+        <h2 class="font-serif text-6xl md:text-8xl tracking-tighter leading-[0.9] mb-8">
+          Want to <br><span class="italic text-darkGreen">make it</span> yourself?
+        </h2>
+        <p class="font-sans text-lg md:text-xl max-w-md mb-8">
+          Sometimes the best gifts aren't bought. If our AI detects your recipient loves handmade items, we'll route you to curated DIY project tutorials.
+        </p>
+        <button class="bg-darkGreen text-cream border border-ink px-8 py-3 rounded-full font-sans text-sm font-semibold uppercase tracking-widest hover:bg-ink transition-colors">
+          View DIY Projects
+        </button>
+      </div>
+      
+      <div class="flex-1 w-full relative h-[400px] border border-ink rounded-full overflow-hidden bg-creamAlt flex items-center justify-center p-8">
+         <div class="w-full h-full border border-ink rounded-full flex items-center justify-center">
+            <div class="w-3/4 h-3/4 border border-ink rounded-full bg-orange flex items-center justify-center text-6xl text-ink">
+              ✽
+            </div>
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-coral text-ink py-24 px-6 md:px-12 text-center">
+    <div class="max-w-4xl mx-auto flex flex-col items-center">
+      <div class="text-6xl mb-6 text-cream">✦</div>
+      <h2 class="font-serif text-6xl md:text-[100px] leading-none tracking-tighter mb-10">
+        Ready to <span class="italic text-cream">gift better?</span>
+      </h2>
+      <button class="bg-cream text-ink border border-ink px-10 py-5 rounded-full font-sans text-lg font-bold uppercase tracking-widest hover:bg-orange transition-all transform hover:scale-105 shadow-[4px_4px_0px_#1a1a1a]">
+        Start a Session
+      </button>
+      
+      <div class="mt-24 pt-8 border-t border-ink/20 w-full flex flex-col md:flex-row justify-between items-center text-sm font-sans uppercase tracking-widest font-semibold gap-4">
+        <p>© 2026 GIFTSENSE</p>
+        <p>BUILT IN INDIA</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-cream transition-colors">Instagram</a>
+          <a href="#" class="hover:text-cream transition-colors">Twitter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
