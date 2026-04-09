@@ -81,7 +81,38 @@
       }, 800);
     }
 
-    function showGifts() {
+    function async function showGifts() {
+      try {
+        // 1. Fetch your actual database!
+        const response = await fetch('brands.json');
+        const allBrands = await response.json();
+
+        // 2. Shuffle and pick 2 random gifts to simulate the AI thinking
+        const shuffled = allBrands.sort(() => 0.5 - Math.random());
+        const selectedGifts = shuffled.slice(0, 2);
+
+        // 3. Display them on the screen
+        selectedGifts.forEach((g, i) => {
+          setTimeout(() => {
+            history.innerHTML += `
+              <div class="gift-card cursor-pointer hover:shadow-lg" onclick="window.open('${g.url}', '_blank')">
+                <p class="font-sans font-bold text-coral uppercase tracking-widest text-xs mb-1">${g.category}</p>
+                <h3 class="font-serif font-bold text-2xl mb-1">${g.name}</h3>
+                <p class="font-sans font-bold text-ink/80 uppercase tracking-widest text-xs mb-3">${g.item}</p>
+                <p class="font-serif italic text-lg leading-relaxed mb-4">"${g.why}"</p>
+                <div class="flex justify-between items-center border-t border-ink/20 pt-4 mt-2">
+                  <span class="font-bold">${g.price}</span>
+                  <button class="bg-darkGreen text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">See Gift →</button>
+                </div>
+              </div>`;
+            history.scrollTop = history.scrollHeight;
+          }, i * 300);
+        });
+      } catch (error) {
+        console.error("Error loading gifts:", error);
+        history.innerHTML += `<div class="chat-bubble bubble-ai">Oops! I had trouble looking into my database. Let's try again later.</div>`;
+      }
+    } {
       const gifts = [
         { brand: "Old Giraffe Studio", item: "Hand-illustrated Dated Planner", why: "Because they love organizing their thoughts and appreciate beautiful, handmade paper goods.", price: "₹850" },
         { brand: "Studio Kohl", item: "Contemporary Art Print", why: "For their aesthetic soul—this will look perfect in that quiet reading corner they love.", price: "₹1200" }
