@@ -51,10 +51,10 @@
   </div>
 
   <script>
-    // 1. The Massive Data Structure
+    // 1. ALL 7 QUESTIONS Exactly as requested
     const questions = [
       {
-        id: "occasion", type: "single", title: "What's the occasion?",
+        id: "occasion", type: "single", title: "What's the occasion?", subtitle: "Select one",
         options: ["Valentine's Day", "Birthday", "Anniversary", "Wedding", "Housewarming", "New Job", "Festival", "Secret Santa", "Farewell", "New Born", "Just because", "Other"]
       },
       {
@@ -62,16 +62,16 @@
         options: ["Partner", "Friend", "Sibling", "Parent", "Grandparent", "Son/Daughter", "Niece/Nephew", "Colleague", "Boss/Mentor", "Couple", "Myself", "Other"]
       },
       {
-        id: "age", type: "single", title: "Age group",
+        id: "age", type: "single", title: "Age group", subtitle: "Select one",
         options: ["Teens (13–19)", "20s", "30s", "40s", "50s", "60+"]
       },
       {
-        id: "gender", type: "single", title: "Gender",
+        id: "gender", type: "single", title: "Gender", subtitle: "Select one",
         options: ["Woman", "Man", "Non-binary"]
       },
       {
-        id: "interests", type: "multi", minSelect: 3, title: "What are they into?", subtitle: "Select at least 3 for better recommendations", gridClass: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-        options: ["Cooking/Baking", "Fitness/Sports", "Reading & Books", "Video Games", "Board Games", "Music", "Art/Crafts", "Gardening/Plants", "Home Decor", "Travel", "Outdoors/Hiking", "Photography", "Beauty/Skincare", "Movies/Series", "Cat Parent", "Dog Parent", "Writing/Journaling", "Yoga/Meditation", "Fashion", "Tech/Gadgets", "Cocktails/Wine", "Coffee", "Tea", "Anime/Manga", "Wellness/Spa", "Eco-Friendly", "K-pop/K-drama", "Pottery/Ceramics", "Content Creation", "DIY Projects", "Personal Development", "Collectibles/Plush", "Flowers/Botanicals", "Other"]
+        id: "interests", type: "multi", minSelect: 1, title: "What are they into?", subtitle: "Select one or more", gridClass: "grid-cols-1 md:grid-cols-2",
+        options: ["Flowers & Botanicals", "Collectible Plush", "Board Games", "Art Prints & Posters", "Vinyl Records"]
       },
       {
         id: "budget", type: "multi", minSelect: 1, title: "What's your budget?", subtitle: "Select one or more",
@@ -85,7 +85,7 @@
 
     let currentStep = 0;
     let userAnswers = {}; 
-    let currentMultiSelection = []; // Temporary array for multi-select screens
+    let currentMultiSelection = []; 
 
     const container = document.getElementById('quiz-container');
     const progressText = document.getElementById('progress-text');
@@ -96,12 +96,12 @@
     // 2. Render Question
     function renderQuestion() {
       container.innerHTML = '';
-      currentMultiSelection = []; // Reset temp selection
+      currentMultiSelection = []; 
       
       const q = questions[currentStep];
       progressText.innerText = `Step ${currentStep + 1} of ${questions.length}`;
 
-      // Handle UI for Multi vs Single
+      // Show Action Bar only for multi-select (Interests, Budget, Avoid)
       if (q.type === 'multi') {
         actionBar.style.display = 'flex';
         continueBtn.disabled = q.minSelect > 0;
@@ -109,7 +109,7 @@
         
         if (q.minSelect === 0) {
           skipBtn.style.display = 'block';
-          continueBtn.style.display = 'none'; // Hide continue initially if optional
+          continueBtn.style.display = 'none'; 
         } else {
           skipBtn.style.display = 'none';
           continueBtn.style.display = 'block';
@@ -151,21 +151,19 @@
       const q = questions[currentStep];
       
       if (currentMultiSelection.includes(value)) {
-        // Remove it
         currentMultiSelection = currentMultiSelection.filter(item => item !== value);
         btnElement.classList.remove('multi-selected');
       } else {
-        // Add it
         currentMultiSelection.push(value);
         btnElement.classList.add('multi-selected');
       }
 
-      // Update button states
+      // Update Continue/Skip buttons
       if (currentMultiSelection.length >= q.minSelect) {
         continueBtn.disabled = false;
         continueBtn.innerText = "Continue →";
         continueBtn.style.display = 'block';
-        if (q.minSelect === 0) skipBtn.style.display = 'none'; // Hide skip if they started selecting
+        if (q.minSelect === 0) skipBtn.style.display = 'none'; 
       } else {
         continueBtn.disabled = true;
         continueBtn.innerText = `Select ${q.minSelect - currentMultiSelection.length} more`;
@@ -176,7 +174,7 @@
       }
     }
 
-    // 5. Logic: Go to next step from Multi-Select
+    // 5. Logic: Go to next step
     function goToNextStep() {
       const q = questions[currentStep];
       userAnswers[q.id] = [...currentMultiSelection];
@@ -188,7 +186,7 @@
       if (currentStep < questions.length) {
         renderQuestion();
       } else {
-        actionBar.style.display = 'none'; // Hide action bar
+        actionBar.style.display = 'none'; 
         showLoadingState();
       }
     }
@@ -212,31 +210,26 @@
         const response = await fetch('brands.json');
         const allBrands = await response.json();
 
-        // Retrieve their selected interests
         const userInterests = userAnswers['interests'] || [];
         
-        // Match their interests to our database categories
         let matchedGifts = allBrands.filter(g => {
           const cat = g.category.toLowerCase();
           
-          if ((userInterests.includes("Flowers/Botanicals") || userInterests.includes("Gardening/Plants")) && cat.includes("flower")) return true;
-          if ((userInterests.includes("Art/Crafts") || userInterests.includes("Home Decor")) && cat.includes("art")) return true;
-          if ((userInterests.includes("Music")) && cat.includes("vinyl")) return true;
-          if ((userInterests.includes("Board Games")) && cat.includes("game")) return true;
-          if ((userInterests.includes("Collectibles/Plush") || userInterests.includes("Anime/Manga")) && cat.includes("plush")) return true;
+          if (userInterests.includes("Flowers & Botanicals") && cat.includes("flower")) return true;
+          if (userInterests.includes("Art Prints & Posters") && cat.includes("art")) return true;
+          if (userInterests.includes("Vinyl Records") && cat.includes("vinyl")) return true;
+          if (userInterests.includes("Board Games") && cat.includes("game")) return true;
+          if (userInterests.includes("Collectible Plush") && cat.includes("plush")) return true;
           
           return false;
         });
 
-        // Fallback: If their interests don't perfectly match our 5 test categories, pick random gifts
         if (matchedGifts.length === 0) matchedGifts = allBrands;
 
-        // Shuffle and pick top 3
         const selectedGifts = matchedGifts.sort(() => 0.5 - Math.random()).slice(0, 3);
 
         progressText.innerText = "Your Results";
         
-        // Build the Results UI
         let resultsHtml = `
           <div class="fade-in-up mb-8 text-center w-full">
             <h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2>
@@ -279,7 +272,6 @@
       }
     }
 
-    // Start the app
     renderQuestion();
   </script>
 </body>
