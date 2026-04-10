@@ -100,6 +100,10 @@
     let currentStep = 0;
     let userAnswers = {}; 
     let currentMultiSelection = []; 
+    
+    // ADVANCED ADDITION: Tracks how many gifts we've shown so we can page through them!
+    let giftOffset = 0; 
+    let totalMatchedGifts = 0;
 
     const container = document.getElementById('quiz-container');
     const progressText = document.getElementById('progress-text');
@@ -208,11 +212,23 @@
         let scoredGifts = allBrands.map(g => {
           let score = 0;
           const cat = g.category.toLowerCase();
+          const text = (g.item + " " + g.why).toLowerCase();
+
+          // Base scoring
           if (userInterests.includes("Flowers & Botanicals") && cat.includes("flower")) score += 10;
           if (userInterests.includes("Art Prints & Posters") && cat.includes("art")) score += 10;
           if (userInterests.includes("Vinyl Records") && cat.includes("vinyl")) score += 10;
           if (userInterests.includes("Board Games") && cat.includes("game")) score += 10;
           if (userInterests.includes("Collectible Plush") && cat.includes("plush")) score += 10;
+
+          // ADVANCED: Deep Dive Vibe Scoring!
+          if (userAnswers['vibe']) {
+            const vibe = userAnswers['vibe'];
+            if (vibe === 'Practical & Useful' && (text.includes('kit') || text.includes('set') || text.includes('everyday'))) score += 8;
+            if (vibe === 'Sentimental & Sweet' && (text.includes('memory') || text.includes('custom') || text.includes('keepsake'))) score += 8;
+            if (vibe === 'Quirky & Fun' && (text.includes('fun') || text.includes('game') || text.includes('unique'))) score += 8;
+            if (vibe === 'Luxury & Pampering' && (text.includes('premium') || text.includes('spa') || text.includes('silk'))) score += 8;
+          }
 
           const minPriceMatch = g.price.replace(/,/g, '').match(/\d+/);
           const minPrice = minPriceMatch ? parseInt(minPriceMatch[0]) : 0;
@@ -224,20 +240,31 @@
           if (userBudgets.includes("₹3,000 – ₹5,000") && minPrice >= 2900 && minPrice <= 5000) budgetMatch = true;
           if (userBudgets.includes("₹5,000 – ₹10,000") && minPrice >= 4900 && minPrice <= 10000) budgetMatch = true;
           if (userBudgets.includes("₹10,000+") && minPrice >= 9000) budgetMatch = true;
+          
           if (budgetMatch) score += 5;
           return { ...g, score };
         });
 
+        // Sort by score
         let matchedGifts = scoredGifts.filter(g => g.score >= 10).sort((a, b) => b.score - a.score);
-        const selectedGifts = matchedGifts.slice(0, 3);
+        totalMatchedGifts = matchedGifts.length;
+        
+        // ADVANCED: Use the offset to slice the correct 3 gifts
+        const selectedGifts = matchedGifts.slice(giftOffset, giftOffset + 3);
         progressText.innerText = "Your Results";
         
         let resultsHtml = `<div class="fade-in-up mb-8 text-center w-full"><h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2></div><div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">`;
 
-        if (selectedGifts.length === 0) resultsHtml += `<p class="col-span-3 text-center font-bold">No matches found for this exact budget. Try expanding your range!</p>`;
-        else {
+        // Smart Empty States
+        if (selectedGifts.length === 0) {
+          if (giftOffset === 0) {
+            resultsHtml += `<p class="col-span-3 text-center font-bold text-ink/60">No matches found for this exact budget. Try expanding your range!</p>`;
+          } else {
+            resultsHtml += `<p class="col-span-3 text-center font-bold text-ink/60">You've seen all our best matches! Try "Digging deeper" to shift the vibe.</p>`;
+          }
+        } else {
           selectedGifts.forEach(g => {
-            const matchText = g.score === 15 ? "100% Match" : "Good Match";
+            const matchText = g.score >= 15 ? "Top Match" : "Good Match";
             resultsHtml += `<div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up relative cursor-pointer flex flex-col justify-between" onclick="window.open('${g.url}', '_blank')">
                 <div class="absolute top-0 right-0 bg-coral text-cream text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl">${matchText}</div>
                 <div class="mt-2">
@@ -253,16 +280,25 @@
               </div>`;
           });
         }
-        resultsHtml += `</div>
         
+        resultsHtml += `</div>`;
+        
+        // Follow Up Actions UI
+        resultsHtml += `
         <div id="followup-actions" class="mt-20 text-center w-full fade-in-up">
           <h3 class="text-3xl font-serif text-ink mb-8 font-bold">Not quite right?</h3>
           
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl mx-auto">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl mx-auto">`;
+            
+        // Hide "Show more" if we are out of gifts!
+        if (giftOffset + 3 < totalMatchedGifts) {
+          resultsHtml += `
             <button onclick="handleShowMore()" class="option-btn px-6 py-3 bg-cream border-2 border-ink text-ink font-sans font-bold rounded-xl hover:bg-lavender w-full sm:w-auto">
               Show more options
-            </button>
+            </button>`;
+        }
 
+        resultsHtml += `
             <button onclick="handleDigDeeper()" class="option-btn px-6 py-3 bg-cream border-2 border-ink text-ink font-sans font-bold rounded-xl hover:bg-orange w-full sm:w-auto">
               Dig deeper
             </button>
@@ -272,23 +308,56 @@
             </button>
           </div>
         </div>`;
+        
         container.innerHTML = resultsHtml;
+        window.scrollTo(0,0);
       } catch (e) { console.error(e); }
     }
-    // --- Follow Up Functions ---
+
+    // --- ADVANCED FOLLOW UP FUNCTIONS ---
+
     function handleShowMore() {
-      console.log("Fetching new options...");
-      alert("AI Trigger: Give me 3 DIFFERENT gift ideas using the same profile.");
+      // Increase the offset by 3 to skip the gifts we just saw
+      giftOffset += 3; 
+      showLoadingState();
+      window.scrollTo(0, 0);
     }
 
     function handleDigDeeper() {
-      console.log("Digging deeper...");
-      alert("AI Trigger: Ask a follow-up question to narrow down the vibe.");
+      // ADVANCED: Render a brand new UI step directly into the container!
+      progressText.innerText = "Digging Deeper";
+      container.innerHTML = `
+        <div class="text-center fade-in-up w-full max-w-2xl mx-auto mt-10">
+          <h1 class="font-serif text-4xl md:text-5xl font-bold mb-4 text-ink leading-tight">Let's refine this 🕵️‍♀️</h1>
+          <p class="font-sans font-bold text-ink/60 uppercase tracking-widest text-sm mb-10">What is their primary vibe?</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <button onclick="submitDigDeeper('Practical & Useful')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Practical & Useful</button>
+            <button onclick="submitDigDeeper('Sentimental & Sweet')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Sentimental & Sweet</button>
+            <button onclick="submitDigDeeper('Quirky & Fun')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Quirky & Fun</button>
+            <button onclick="submitDigDeeper('Luxury & Pampering')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Luxury & Pampering</button>
+          </div>
+          
+          <button onclick="showLoadingState()" class="mt-12 font-bold text-sm uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-coral transition-all">← Cancel & Go Back</button>
+        </div>
+      `;
+      window.scrollTo(0, 0);
+    }
+
+    function submitDigDeeper(vibe) {
+      // Save the new vibe context
+      userAnswers['vibe'] = vibe; 
+      // Reset the pagination back to 0 so we see the fresh batch
+      giftOffset = 0; 
+      // Re-trigger the logic
+      showLoadingState(); 
     }
 
     function handleRestart() {
       window.location.reload(); 
     }
+    
+    // Start the app
     renderQuestion();
   </script>
 </body>
