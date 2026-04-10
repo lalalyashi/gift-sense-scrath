@@ -1,82 +1,554 @@
 [
   {
-    "name": "Interflora India",
-    "category": "Flowers & Botanicals",
-    "item": "Luxury Floral Arrangement",
-    "price": "₹1,500+",
-    "why": "For when the flowers arriving need to make them actually say 'wow'. Premium presentation for someone who appreciates real luxury.",
-    "url": "https://interflora.in/"
-  },
-  {
-    "name": "The Flora",
-    "category": "Flowers & Botanicals",
-    "item": "Studio-style Artisanal Bouquet",
-    "price": "₹999",
-    "why": "Because they deserve flowers that actually look considered and aesthetic, not just a generic vendor bunch.",
-    "url": "https://theflora.in/"
-  },
-  {
-    "name": "Jellycat",
-    "category": "Collectible Plush",
-    "item": "Bashful Bunny or Amuseables",
-    "price": "₹2,500",
-    "why": "For the person who has sent you a Jellycat meme at least once. The original Gen Z plush obsession.",
-    "url": "https://jellycat.com/"
-  },
-  {
-    "name": "Pop Mart / Labubu",
-    "category": "Collectible Plush",
-    "item": "The Monsters Blind Box",
-    "price": "₹2,500+",
-    "why": "For the trendsetter who has been seeing Labubu on every Instagram story and finally wants one of their own.",
-    "url": "https://luxurycultindia.com/"
-  },
-  {
-    "name": "Bored Game Company",
-    "category": "Board Games",
-    "item": "A Premium Strategy Game",
-    "price": "₹1,500",
-    "why": "To fuel their competitive edge during game nights. Sourced from India's most trusted board game retailer.",
-    "url": "https://in.boredgamecompany.com/"
-  },
-  {
-    "name": "Skillmatics",
-    "category": "Card Games",
-    "item": "Guess in 10 or Found It",
-    "price": "₹499",
-    "why": "A screen-free, portable card game that makes gifting a game feel thoughtful, not generic.",
-    "url": "https://skillmatics.in/"
-  },
-  {
     "name": "The Plated Project",
     "category": "Art Prints & Posters",
-    "item": "Curated Gallery Wall Set",
-    "price": "₹1,200",
-    "why": "To make their wall feel curated, not cluttered. Every piece from this indie brand is an object, not just a print.",
-    "url": "https://theplatedproject.com/"
+    "item": "Art plates, embroidered canvas, gallery wall sets, framed art",
+    "price": "₹500-4,000",
+    "why": "The most Gen Z Indian wall art brand right now makes your wall feel curated, not cluttered. [cite: 24, 25] Every piece is an object, not just a print. [cite: 26]",
+    "url": "https://theplatedproject.com"
+  },
+  {
+    "name": "Dessine Art",
+    "category": "Art Prints & Posters",
+    "item": "Museum prints, hand-painted originals, art plates",
+    "price": "₹400-3,500",
+    "why": "Surrealist to contemporary prints with a wide range of styles. [cite: 35] For someone who wants proper wall art without spending proper wall art money. [cite: 36]",
+    "url": "https://dessineart.com"
   },
   {
     "name": "Ekibeki",
-    "category": "Art Prints",
-    "item": "Quiet Indian Illustrator Print",
-    "price": "₹500",
-    "why": "For someone who wants their space to carry something beautifully illustrated and deeply personal.",
-    "url": "https://ekibeki.com/"
+    "category": "Art Prints & Posters",
+    "item": "Quiet Indian Illustrator Prints",
+    "price": "₹250-1,800",
+    "why": "Quiet, personal prints of Indian cities, monsoons and specific moods. [cite: 45] For someone who wants their wall to carry something Indian but illustrated beautifully. [cite: 47]",
+    "url": "https://ekibeki.com"
   },
+  {
+    "name": "Peeekaboo",
+    "category": "Art Prints & Posters",
+    "item": "Stickers, posters, wall art",
+    "price": "₹199-1,200",
+    "why": "Witty and relatable prints with anime and travel options. [cite: 55] For someone who rotates wall art the way others rotate playlists. Ultra affordable. [cite: 57]",
+    "url": "https://peeekaboo.in"
+  },
+  {
+    "name": "Studio Artemist",
+    "category": "Art Prints & Posters",
+    "item": "Canvas & Paper Prints",
+    "price": "₹300-2,000",
+    "why": "Accessible canvas and paper prints across a wide range of styles. [cite: 66] The accessible entry point wide range, low spend, decent quality. [cite: 68, 69]",
+    "url": "https://studioartemist.com"
+  },
+  {
+    "name": "My Retro Poster",
+    "category": "Art Prints & Posters",
+    "item": "Mediterranean travel posters",
+    "price": "₹1,800-4,500",
+    "why": "Hand-painted by real artists (no Al), museum-grade matte art paper, limited editions. [cite: 79] The travel poster brand Gen Z actually buys. [cite: 81]",
+    "url": "https://myretroposter.com"
+  },
+  {
+    "name": "Desenio",
+    "category": "Art Prints & Posters",
+    "item": "Mediterranean travel prints, botanical illustrations",
+    "price": "₹700-3,200",
+    "why": "Where most Gen Z gallery walls actually came from. [cite: 90] If they have a Pinterest board, half of it probably came from here. [cite: 92]",
+    "url": "https://desenio.com"
+  },
+  {
+    "name": "The Poster Club",
+    "category": "Art Prints & Posters",
+    "item": "Curated drops from emerging global artists",
+    "price": "₹1,800-6,300",
+    "why": "Copenhagen-based curated drops from emerging global artists. [cite: 103] For the person who wants their wall to look considered, not bought. [cite: 105]",
+    "url": "https://theposterclub.com"
+  },
+  {
+    "name": "DROOL",
+    "category": "Art Prints & Posters",
+    "item": "Contemporary Art Prints",
+    "price": "₹2,200-6,300",
+    "why": "Backs emerging artists worldwide every print is exclusive to DROOL. [cite: 114, 115] For the person who thinks most wall art is boring. DROOL is never boring. [cite: 116]",
+    "url": "https://drool-art.com"
+  },
+  {
+    "name": "Displate",
+    "category": "Art Prints & Posters",
+    "item": "Metal posters - anime, gaming, music, bands, travel",
+    "price": "₹2,500-5,900",
+    "why": "Magnetic mounting so no holes in your wall. [cite: 125] For the person who wants their poster to be a statement AND a conversation starter. [cite: 127]",
+    "url": "https://displate.com"
+  },
+  {
+    "name": "Vice Press",
+    "category": "Art Prints & Posters",
+    "item": "Limited-edition screen prints and lithographs",
+    "price": "₹2,700-8,600",
+    "why": "Officially licensed screen prints for cult films, horror, A24, sci-fi, TV. [cite: 136] For the person who follows poster drops the way others follow sneaker drops. [cite: 138]",
+    "url": "https://vice-press.com"
+  },
+  {
+    "name": "Posterlounge",
+    "category": "Art Prints & Posters",
+    "item": "European poster platform",
+    "price": "₹900-4,500",
+    "why": "Massive European poster platform - Mediterranean, retro travel, photography, vintage film, botanical. [cite: 147] The reliable European option. Wide range, consistent quality, affordable pricing. [cite: 149]",
+    "url": "https://posterlounge.com"
+  }
+]
+[
   {
     "name": "The Revolver Club",
     "category": "Vinyl Records",
-    "item": "Curated Indie Vinyl Record",
-    "price": "₹2,000",
-    "why": "Because their perfect Sunday involves dropping a needle on a record and deep-listening to their favorite album.",
-    "url": "https://therevolverclub.com/"
+    "item": "Curated Indie & Rare Vinyl Records",
+    "price": "₹800-5,000",
+    "why": "India's biggest vinyl retailer. The first stop for buying vinyl in India. If the record exists, they likely have it. Also offers a Stereo Box vinyl subscription.",
+    "url": "https://therevolverclub.com"
   },
   {
     "name": "Music Circle",
     "category": "Vinyl Records",
-    "item": "Rare Bollywood/Classical Vinyl",
-    "price": "₹1,500+",
-    "why": "For the old soul. This is the absolute best vintage Indian music on vinyl—no one else comes close.",
-    "url": "https://musiccircle.co.in/"
+    "item": "Rare Bollywood & Classical Vinyl",
+    "price": "₹500-8,000",
+    "why": "The most comprehensive Indian vinyl store online with 36,000+ records. Run by Pilak Bhatt. Unbeatable for finding rare Indian music on vinyl.",
+    "url": "https://musiccircle.co.in"
+  },
+  {
+    "name": "Rough Trade",
+    "category": "Vinyl Records",
+    "item": "Alternative & Indie Exclusives",
+    "price": "₹1,600-4,300",
+    "why": "London's iconic independent record store since 1976. The gold standard for indie and alternative vinyl imports with hand-curated staff picks.",
+    "url": "https://roughtrade.com"
+  },
+  {
+    "name": "Bandcamp",
+    "category": "Vinyl Records",
+    "item": "Direct-to-Artist Records",
+    "price": "₹1,300-3,400",
+    "why": "Buy directly from your favorite artist. The most ethical way to buy music, where artists receive 82-90% of every sale. The most meaningful vinyl buy.",
+    "url": "https://bandcamp.com"
+  },
+  {
+    "name": "Discogs",
+    "category": "Vinyl Records",
+    "item": "Rare Marketplace Finds",
+    "price": "₹500-20,000+",
+    "why": "World's largest vinyl marketplace. Best when you know exactly what record they want and need a specific pressing or rare first edition find.",
+    "url": "https://discogs.com"
+  },
+  {
+    "name": "Vinyl Me Please",
+    "category": "Vinyl Records",
+    "item": "Premium Vinyl Subscription",
+    "price": "₹2,700-3,800/month",
+    "why": "A premium monthly subscription sending exclusive limited-edition pressings with custom artwork. The gift that keeps coming.",
+    "url": "https://vinylmeplease.com"
+  },
+  {
+    "name": "Norman Records",
+    "category": "Vinyl Records",
+    "item": "Curated UK Record Store Finds",
+    "price": "₹1,300-3,800",
+    "why": "Online-only independent record store. Hand-curated, staff-reviewed, no algorithm. Best for giving someone a record they have never heard of.",
+    "url": "https://normanrecords.com"
+  },
+  {
+    "name": "Freestyle Vinyl",
+    "category": "Vinyl Records",
+    "item": "Custom Mixtape Vinyl",
+    "price": "₹3,400-7,700",
+    "why": "Upload any songs + custom cover artwork to receive a real playable vinyl record. The most personal gift possible for a music person.",
+    "url": "https://freestyle-vinyl.com"
+  },
+  {
+    "name": "Vinylify",
+    "category": "Vinyl Records",
+    "item": "Custom Lathe-Cut Vinyl",
+    "price": "₹4,400-7,100",
+    "why": "Custom lathe-cut vinyl with free insured worldwide shipping. Choose disc color and design the sleeve. Clean ordering process.",
+    "url": "https://vinylify.com"
+  },
+  {
+    "name": "American Vinyl Co",
+    "category": "Vinyl Records",
+    "item": "Custom Lathe-Cut Records (7\" or 12\")",
+    "price": "₹3,800-7,200",
+    "why": "The most reviewed custom vinyl service globally. Thousands of verified reviews for anniversary and birthday gifts with reliable turnaround.",
+    "url": "https://americanvinylco.com"
+  },
+  {
+    "name": "Print Your Vinyl",
+    "category": "Vinyl Records",
+    "item": "Fast Custom Vinyl Records",
+    "price": "₹3,000-6,800",
+    "why": "Custom vinyl with diamond-cut precision and a full 300gsm deluxe jacket. Fastest turnaround (under 12 days) for when the birthday is coming up fast.",
+    "url": "https://printyourvinyl.com"
+  },
+  {
+    "name": "Crosley",
+    "category": "Vinyl Records",
+    "item": "Entry-Level Turntables",
+    "price": "₹5,000-12,800",
+    "why": "The most popular entry-level turntable brand globally. For the person who has been talking about getting a record player for two years.",
+    "url": "https://crosleyradio.com"
+  }
+]
+[
+  {
+    "name": "FNP - Ferns N Petals",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹399-5,000+",
+    "why": "India's largest and most trusted flower delivery platform. The go-to when you know the city, need it today, and want it to actually arrive looking good.",
+    "url": "https://fnp.com"
+  },
+  {
+    "name": "Flower Aura",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹349-4,000+",
+    "why": "India's #1 florist for fresh flower delivery. For someone who wants fresh flowers delivered reliably, anywhere in India, today.",
+    "url": "https://floweraura.com"
+  },
+  {
+    "name": "IGP",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹499-5,000+",
+    "why": "Premium gifting platform with a strong floral range. Excellent for combining flowers with other gifts in one order. IGP bundles beautifully and delivers fast.",
+    "url": "https://igp.com"
+  },
+  {
+    "name": "Interflora India",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹799-8,000+",
+    "why": "India arm of the global Interflora network. For the gift where the flowers arriving need to make someone actually say 'wow'.",
+    "url": "https://interflora.in"
+  },
+  {
+    "name": "The Flora",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹799-4,000",
+    "why": "Artisanal flower studio delivering premium cut flower arrangements. The kind of bouquet that looks like it came from a boutique florist, not a vendor cart.",
+    "url": "https://theflora.in"
+  },
+  {
+    "name": "Fiorella",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹1,200-6,000",
+    "why": "Premium floral boutique. The go-to for someone who wants flowers to look like they came from a Parisian flower shop. Fiorella's packaging does half the work.",
+    "url": "https://fiorellaindia.com"
+  },
+  {
+    "name": "The Flower Co",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹699-5,000",
+    "why": "Known for turning ordinary flowers into art. For the person whose aesthetic means the bouquet needs to look as good as the gift.",
+    "url": "https://theflowercompany.in"
+  },
+  {
+    "name": "Bloomsvilla",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹599-5,000",
+    "why": "Luxury flower delivery platform specialising in premium rose arrangements. For an anniversary or romantic occasion where flowers need to feel genuinely luxurious.",
+    "url": "https://bloomsvilla.com"
+  },
+  {
+    "name": "Fleurs D'épargne",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹800-4,000",
+    "why": "Indie boutique florist with a curated, aesthetic approach. For someone who takes flowers seriously and wants something that doesn't look like it was ordered off a platform.",
+    "url": "https://fleursdepargne.in"
+  },
+  {
+    "name": "The Flower People",
+    "category": "Flowers & Botanicals",
+    "item": "Fresh Bouquets",
+    "price": "₹1,000-5,000",
+    "why": "Artisan florist with a strong editorial aesthetic. When the recipient has taste, and a generic bunch would be an insult to both of you.",
+    "url": "https://theflowerpeople.in"
+  },
+  {
+    "name": "Coastal Habitat",
+    "category": "Flowers & Botanicals",
+    "item": "Dried & Preserved",
+    "price": "₹450-3,500",
+    "why": "India's most aesthetic dried flower brand. The dried flower gift that actually sits on someone's shelf for a year and still gets compliments.",
+    "url": "https://coastalhabitat.in"
+  },
+  {
+    "name": "The Maeva Store",
+    "category": "Flowers & Botanicals",
+    "item": "Dried & Preserved",
+    "price": "₹1,200-3,500",
+    "why": "Handcrafted dried flower bouquets, botanical wreaths, and table decor. For someone who would rather have a dried arrangement on their shelf than dead fresh flowers after three days.",
+    "url": "https://themaevastore.com"
+  },
+  {
+    "name": "Foliaro",
+    "category": "Flowers & Botanicals",
+    "item": "Dried & Preserved",
+    "price": "₹600-3,000",
+    "why": "The affordable entry point into dried botanical gifting—quality without the premium price tag. Clean design language and good price range.",
+    "url": "https://foliaro.in"
+  },
+  {
+    "name": "Leafy Affair",
+    "category": "Flowers & Botanicals",
+    "item": "Botanical Gifts",
+    "price": "₹299-2,500",
+    "why": "Makes jewellery from real preserved flowers, dandelion seeds and ferns. For someone who loves flowers but wants them to last forever. The most unique botanical gift.",
+    "url": "https://leafyaffair.com"
+  }
+]
+[
+  {
+    "name": "Jellycat",
+    "category": "Collectible Plush",
+    "item": "Bashful Bunny, Amuseables, Bumbly Bear [cite: 219]",
+    "price": "₹2,500-₹8,000 [cite: 221]",
+    "why": "The original Gen Z plush obsession[cite: 219]. Each character has a name and a personality[cite: 222, 223]. For someone who has sent you a Jellycat meme at least once[cite: 225].",
+    "url": "https://jellycat.com [cite: 216]"
+  },
+  {
+    "name": "Squishmallows",
+    "category": "Collectible Plush",
+    "item": "Ultra-squishy Characters [cite: 239]",
+    "price": "₹800-₹4,000 [cite: 232]",
+    "why": "100 million units sold globally[cite: 234]. Squishmallows are the most collected plush of the Gen Z era with a marshmallow texture[cite: 234]. For the person who cannot walk past a soft thing without picking it up[cite: 237].",
+    "url": "https://squishmallowsindia.com [cite: 228]"
+  },
+  {
+    "name": "Pop Mart / Labubu",
+    "category": "Collectible Plush",
+    "item": "The Monsters Blind Boxes [cite: 245]",
+    "price": "₹2,500-₹18,000 [cite: 243]",
+    "why": "The biggest collectible trend of 2024-25[cite: 245]. Mischievous monster plush pendants in blind boxes[cite: 245]. For the person who has been seeing Labubu on every Instagram story and finally wants one[cite: 248].",
+    "url": "https://luxurycultindia.com [cite: 240]"
+  },
+  {
+    "name": "Sonny Angel",
+    "category": "Collectible Plush",
+    "item": "Cherub Blind Box Figurines [cite: 259]",
+    "price": "₹1,500-₹4,000 [cite: 258]",
+    "why": "Tiny cherub figurines in blind boxes - the pre-Labubu collector obsession that never went away[cite: 259]. For the aesthete who displays things on their shelf with intention[cite: 262].",
+    "url": "https://bearhugs.in [cite: 254]"
+  },
+  {
+    "name": "Aurora World / Palm Pals",
+    "category": "Collectible Plush",
+    "item": "Palm-sized Plushies [cite: 271]",
+    "price": "₹800-₹2,500 [cite: 270]",
+    "why": "Tiny, palm-sized plushies that fit in your hand[cite: 271]. The more affordable Jellycat alternative with a massive, endlessly expandable range[cite: 272]. Also the best stocking-stuffer level gift in this category[cite: 274].",
+    "url": "https://bearhugs.in [cite: 266]"
+  },
+  {
+    "name": "Bear Hugs India",
+    "category": "Collectible Plush",
+    "item": "Imported Plush Retailer [cite: 284]",
+    "price": "₹549-₹30,000 [cite: 282]",
+    "why": "India's #1 novelty and plush store[cite: 283]. The one-stop shop for every imported plush brand in India[cite: 283, 284]. If you are buying any plush brand for someone in India and do not want to deal with international shipping start here[cite: 285].",
+    "url": "https://bearhugs.in [cite: 278]"
+  },
+  {
+    "name": "Hamleys India",
+    "category": "Collectible Plush",
+    "item": "Soft Toys & Licensed Plush [cite: 295]",
+    "price": "₹500-₹8,000 [cite: 294]",
+    "why": "India's most trusted toy retailer[cite: 295]. The safe, reliable choice when you need something you can trust[cite: 297]. For a gift that needs zero explanation and zero risk[cite: 298].",
+    "url": "https://hamleys.in [cite: 290]"
+  },
+  {
+    "name": "Miniso India",
+    "category": "Collectible Plush",
+    "item": "Sanrio & Character Plush [cite: 307]",
+    "price": "₹299-₹1,999 [cite: 306]",
+    "why": "Japan-inspired lifestyle brand with the most affordable Sanrio and character plush in India[cite: 307]. For someone who loves Sanrio but does not need to spend Jellycat prices[cite: 309].",
+    "url": "https://miniso.in [cite: 302]"
+  },
+  {
+    "name": "Toy Collectors India",
+    "category": "Collectible Plush",
+    "item": "Specialist Collector Toys [cite: 318]",
+    "price": "₹500-₹10,000 [cite: 316]",
+    "why": "Specialist collector toy store in India[cite: 318]. For when the gift is for a serious collector who already knows exactly what they want[cite: 320].",
+    "url": "https://toycollectorsindia.com [cite: 313]"
+  },
+  {
+    "name": "Luxe by Kan",
+    "category": "Collectible Plush",
+    "item": "Premium Reseller Editions [cite: 328]",
+    "price": "₹2,900-₹20,000 [cite: 327]",
+    "why": "Premium Labubu and Pop Mart reseller in India[cite: 328]. For the collector who needs the rare one[cite: 329]. Luxe by Kan is where you go for the editions that already sold out everywhere else[cite: 330].",
+    "url": "https://luxebykan.com [cite: 324]"
+  },
+  {
+    "name": "Sanrio Characters",
+    "category": "Collectible Plush",
+    "item": "Hello Kitty, Cinnamoroll, Kuromi [cite: 335, 336]",
+    "price": "₹299-₹3,000 [cite: 340]",
+    "why": "The Sanrio universe in plush form[cite: 341]. For someone who has a Sanrio character as their phone wallpaper[cite: 344]. This is the gift they already want[cite: 344].",
+    "url": "https://miniso.in [cite: 337]"
+  },
+  {
+    "name": "Stitch / Disney Plush",
+    "category": "Collectible Plush",
+    "item": "Stitch & Disney Icons [cite: 346]",
+    "price": "₹700-₹5,000 [cite: 351]",
+    "why": "Stitch is the most gifted Disney plush in India right now[cite: 352]. Disney plush never goes wrong[cite: 353]. Stitch is the answer when you know someone loves Disney but have no idea which character[cite: 354].",
+    "url": "https://bearhugs.in [cite: 347]"
+  },
+  {
+    "name": "Pokemon Plush",
+    "category": "Collectible Plush",
+    "item": "Pikachu, Gengar, Eevee, Snorlax [cite: 356, 357]",
+    "price": "₹800-₹4,000 [cite: 361]",
+    "why": "The Pokemon plush range spans every generation and every taste[cite: 362]. Match the Pokemon to the person[cite: 364]. For someone who grew up playing Pokemon or still does[cite: 365].",
+    "url": "https://bearhugs.in [cite: 358]"
+  },
+  {
+    "name": "Gund",
+    "category": "Collectible Plush",
+    "item": "Timeless Teddies & Animal Plush [cite: 377]",
+    "price": "₹2,000-₹6,000 [cite: 376]",
+    "why": "Premium American plush brand since 1898[cite: 377]. The plush brand that feels like a real hug[cite: 378]. For someone who does not collect but would treasure one perfect, beautiful soft toy for years[cite: 380].",
+    "url": "https://ubuy.co.in [cite: 372]"
+  },
+  {
+    "name": "Ty / Beanie Boos",
+    "category": "Collectible Plush",
+    "item": "Bean-stuffed Collectibles [cite: 387]",
+    "price": "₹500-₹2,000 [cite: 386]",
+    "why": "The iconic bean-stuffed collectible animals with oversized sparkle eyes[cite: 387]. Small, affordable, endlessly collectable[cite: 388]. For someone who collected Beanie Babies as a child[cite: 389].",
+    "url": "https://bearhugs.in [cite: 382]"
+  },
+  {
+    "name": "Warmies",
+    "category": "Collectible Plush",
+    "item": "Microwavable Lavender Plush [cite: 398]",
+    "price": "₹2,500-₹5,000 [cite: 397]",
+    "why": "Microwavable, lavender-scented plush animals[cite: 398]. You heat them in the microwave and they stay warm for hours[cite: 398]. For someone who needs a hug more than a collectible[cite: 400].",
+    "url": "https://ubuy.co.in [cite: 393]"
+  }
+]
+[
+  {
+    "name": "Bored Game Company",
+    "category": "Board Games",
+    "item": "Board Game Retailer (Strategy, Party, Family, Co-op)",
+    "price": "₹399-₹8,000+",
+    "why": "India's biggest board game retailer with 500+ games. The single most trusted source for board games in India. Start here always.",
+    "url": "https://in.boredgamecompany.com"
+  },
+  {
+    "name": "Board Games India",
+    "category": "Board Games",
+    "item": "International Classics & Kickstarter Games",
+    "price": "₹299-₹6,000+",
+    "why": "India's oldest board game retailer, publisher, and distributor. Best for finding niche and Kickstarter games that bigger retailers don't stock.",
+    "url": "https://boardgamesindia.com"
+  },
+  {
+    "name": "Tabletop Universe",
+    "category": "Board Games",
+    "item": "Premium Board Games (Catan, Wingspan, Scythe)",
+    "price": "₹1,000-₹10,000+",
+    "why": "Premium board game store with 100% guaranteed traceability to publishers. For the serious gamer who wants premium, authentic titles with no knockoffs.",
+    "url": "https://tabletopuniverse.com"
+  },
+  {
+    "name": "Board Games Bazaar",
+    "category": "Board Games",
+    "item": "Officially Licensed Indian Editions",
+    "price": "₹299-₹4,000+",
+    "why": "Solid mid-tier Indian board game retailer. Best for buying specific popular titles (like Exploding Kittens and Catan) at fair prices with an Indian warranty.",
+    "url": "https://boardgamesbazaar.com"
+  },
+  {
+    "name": "Skillmatics",
+    "category": "Board Games",
+    "item": "Guess in 10, Found It & 100+ Card Games",
+    "price": "₹299-₹1,499",
+    "why": "Screen-free, portable, Gen Z-friendly card games. The Indian brand that makes gifting a card game feel thoughtful, not generic.",
+    "url": "https://skillmatics.in"
+  },
+  {
+    "name": "Exploding Kittens",
+    "category": "Board Games",
+    "item": "Exploding Kittens Card Game",
+    "price": "₹799-₹1,299",
+    "why": "A kitty-powered Russian Roulette game with hilarious chaos. For literally any group of friends. The fastest game night starter ever made.",
+    "url": "https://explodingkittens.com"
+  },
+  {
+    "name": "Unstable Unicorns",
+    "category": "Board Games",
+    "item": "Unstable Unicorns Card Game",
+    "price": "₹1,199-₹1,799",
+    "why": "Build a unicorn army and destroy your rivals. For groups who want something more strategic than Exploding Kittens but just as chaotic.",
+    "url": "https://unstablegames.com"
+  },
+  {
+    "name": "Catan",
+    "category": "Board Games",
+    "item": "Catan Base Game",
+    "price": "₹2,500-₹4,500",
+    "why": "The game that got an entire generation into modern board gaming. The universal gateway into hobby gaming and the single best intro to strategy board games.",
+    "url": "https://catan.com"
+  },
+  {
+    "name": "Codenames",
+    "category": "Board Games",
+    "item": "Codenames Word Game",
+    "price": "₹1,299-₹1,999",
+    "why": "Two rival spymasters give one-word clues to identify agents. Simple to teach, deeply strategic, and infinitely replayable. The only word game that makes everyone feel clever.",
+    "url": "https://czechgames.com/en/codenames"
+  },
+  {
+    "name": "Ticket to Ride",
+    "category": "Board Games",
+    "item": "Ticket to Ride Base Game",
+    "price": "₹2,500-₹3,999",
+    "why": "Collect train cards and claim railway routes across a gorgeous illustrated map. The perfect board game for someone who has never played one before.",
+    "url": "https://daysofwonder.com"
+  },
+  {
+    "name": "UNO",
+    "category": "Board Games",
+    "item": "UNO Special Editions (Flip, All Wild, Attack)",
+    "price": "₹299-₹899",
+    "why": "Everyone knows UNO, but the special editions are genuinely different games. Gift the Flip or All Wild edition—they will not expect it and they will love it.",
+    "url": "https://mattel.com/uno"
+  },
+  {
+    "name": "Hasbro Gaming",
+    "category": "Board Games",
+    "item": "Monopoly, Scrabble, Clue, Pictionary",
+    "price": "₹799-₹2,999",
+    "why": "The original game night brands. For a group that wants zero learning curve. These are the originals for a reason.",
+    "url": "https://hasbro.com"
+  },
+  {
+    "name": "Wingspan",
+    "category": "Board Games",
+    "item": "Wingspan Board Game",
+    "price": "₹4,500-₹6,500",
+    "why": "Attract birds to your wildlife reserve in this engine-building masterpiece. Stunning artwork and gorgeous components. For someone who appreciates a beautiful object as much as a good game.",
+    "url": "https://stonemaiergames.com/games/wingspan"
+  },
+  {
+    "name": "What Do You Meme?",
+    "category": "Board Games",
+    "item": "What Do You Meme? Party Game",
+    "price": "₹1,499-₹2,499",
+    "why": "Create the funniest meme by pairing caption cards with iconic photo cards. The only card game specifically designed for people who communicate in memes.",
+    "url": "https://whatdoyoumeme.com"
   }
 ]
