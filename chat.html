@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GiftSense | Chat</title>
+  <title>GiftSense | Questionnaire</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -20,120 +20,200 @@
     }
   </script>
   <style>
-    body { background-color: #ffffeb; color: #1a1a1a; font-family: 'DM Sans', sans-serif; overflow: hidden; height: 100vh; }
-    .chat-bubble { max-width: 80%; padding: 16px 20px; border-radius: 20px; margin-bottom: 24px; animation: fadeIn 0.4s ease forwards; opacity: 0; transform: translateY(10px); }
-    .bubble-ai { background-color: #055047; color: #ffffeb; border-top-left-radius: 4px; align-self: flex-start; }
-    .bubble-user { background-color: #ffa847; color: #1a1a1a; border-top-right-radius: 4px; align-self: flex-end; font-weight: 500; }
-    .gift-card { background: #efd5ff; border: 2px solid #1a1a1a; border-radius: 20px; padding: 24px; margin-bottom: 16px; animation: fadeIn 0.5s ease forwards; opacity: 0; box-shadow: 4px 4px 0px #1a1a1a; transition: transform 0.2s; }
-    .gift-card:hover { transform: translateY(-4px); }
-    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    body { background-color: #ffffeb; color: #1a1a1a; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    .fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+    .option-btn { transition: all 0.2s ease; box-shadow: 4px 4px 0px #1a1a1a; }
+    .option-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #1a1a1a; }
+    .option-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
   </style>
 </head>
-<body class="flex flex-col">
+<body class="flex flex-col min-h-screen">
 
   <header class="flex justify-between items-center p-6 border-b border-ink/10 bg-cream z-10">
     <a href="index.html" class="font-serif font-bold text-2xl lowercase hover:text-coral transition-colors">giftsense ✦</a>
-    <div id="progress" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Question 1 of 5</div>
+    <div id="progress-text" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Step 1 of 3</div>
   </header>
 
-  <div id="chat-history" class="flex-1 overflow-y-auto p-6 pb-32 flex flex-col scroll-smooth">
-    <div class="chat-bubble bubble-ai">
-      Who are we finding a gift for today? Tell me a little bit about them.
-    </div>
-  </div>
-
-  <div id="input-area" class="fixed bottom-0 left-0 w-full bg-cream p-6 border-t border-ink/10">
-    <div class="max-w-3xl mx-auto relative flex items-center">
-      <input type="text" id="user-input" placeholder="Type your answer..." onkeypress="if(event.key === 'Enter') sendMessage()" class="w-full bg-cream border-2 border-ink rounded-full py-4 pl-6 pr-16 outline-none focus:border-coral transition-colors text-ink placeholder-ink/50 font-medium">
-      <button onclick="sendMessage()" class="absolute right-2 p-3 bg-coral text-ink border-2 border-ink rounded-full hover:bg-orange transition-colors">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
-    </div>
-  </div>
+  <main class="flex-1 flex flex-col justify-center max-w-3xl mx-auto w-full p-6" id="quiz-container">
+    </main>
 
   <script>
-    let step = 1;
-    const history = document.getElementById('chat-history');
-    const input = document.getElementById('user-input');
+    // 1. Define the Quiz Questions & Options
+    const questions = [
+      {
+        id: "recipient",
+        title: "Who are we finding a gift for today?",
+        options: [
+          { label: "My Partner", icon: "❤️" },
+          { label: "A Friend", icon: "✌️" },
+          { label: "Family Member", icon: "🏠" },
+          { label: "Treating Myself", icon: "✨" }
+        ]
+      },
+      {
+        id: "vibe",
+        title: "What is their absolute favorite vibe?",
+        options: [
+          { label: "Cozy & Cute", desc: "Plushies, desk decor", value: "plush", icon: "🧸" },
+          { label: "Aesthetic Room", desc: "Art prints, posters", value: "art", icon: "🖼️" },
+          { label: "Game Night", desc: "Board games, strategy", value: "game", icon: "🎲" },
+          { label: "Old Soul", desc: "Vinyl records, music", value: "vinyl", icon: "🎵" },
+          { label: "Hopeless Romantic", desc: "Flowers, botanicals", value: "flower", icon: "💐" }
+        ]
+      },
+      {
+        id: "budget",
+        title: "What does the budget look like?",
+        options: [
+          { label: "Keep it light", desc: "Under ₹1,500", icon: "💸" },
+          { label: "Sweet spot", desc: "₹1,500 - ₹4,000", icon: "💰" },
+          { label: "Going all out", desc: "Money is no object", icon: "💎" }
+        ]
+      }
+    ];
 
-    function sendMessage() {
-      const text = input.value.trim();
-      if (!text) return;
+    let currentStep = 0;
+    let userAnswers = {}; // Stores the vibes they clicked
 
-      // Add user message
-      history.innerHTML += `<div class="chat-bubble bubble-user">${text}</div>`;
-      input.value = '';
-      history.scrollTop = history.scrollHeight;
+    const container = document.getElementById('quiz-container');
+    const progressText = document.getElementById('progress-text');
 
-      // Mock AI AI Response
-      setTimeout(() => {
-        if (step === 1) {
-          history.innerHTML += `<div class="chat-bubble bubble-ai">I love that. Are they more of a "quiet Sunday reading a book" person, or a "let's go find a hidden cafe" person?</div>`;
-          document.getElementById('progress').innerText = "Question 2 of 5";
-          step++;
-        } else if (step === 2) {
-          history.innerHTML += `<div class="chat-bubble bubble-ai">Perfect. I have a great sense of their style. Give me one second while I look through the indie brand database...</div>`;
-          document.getElementById('progress').innerText = "Curating Gifts...";
-          document.getElementById('input-area').style.display = 'none'; // Hide input box
-          setTimeout(showGifts, 1500);
-        }
-        history.scrollTop = history.scrollHeight;
-      }, 800);
+    // 2. Render the current question
+    function renderQuestion() {
+      container.innerHTML = ''; // Clear screen
+      
+      const q = questions[currentStep];
+      progressText.innerText = `Step ${currentStep + 1} of ${questions.length}`;
+
+      // Build the Title
+      let html = `
+        <h1 class="font-serif text-4xl md:text-5xl font-bold mb-8 text-ink fade-in-up text-center leading-tight">
+          ${q.title}
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in-up delay-1">
+      `;
+
+      // Build the Buttons
+      q.options.forEach((opt, index) => {
+        // If this is the 'vibe' question, we pass the specific value. Otherwise, just a generic pass.
+        const val = opt.value ? `'${opt.value}'` : `'general'`;
+        
+        html += `
+          <button onclick="handleSelection(${val}, '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-2xl p-6 text-left group hover:bg-coral transition-colors flex items-start gap-4">
+            <span class="text-3xl">${opt.icon}</span>
+            <div>
+              <div class="font-bold text-xl group-hover:text-cream transition-colors">${opt.label}</div>
+              ${opt.desc ? `<div class="text-sm font-medium text-ink/60 group-hover:text-cream/90 uppercase tracking-widest mt-1">${opt.desc}</div>` : ''}
+            </div>
+          </button>
+        `;
+      });
+
+      html += `</div>`;
+      container.innerHTML = html;
     }
 
-    function async function showGifts() {
+    // 3. Handle when a user clicks a button
+    function handleSelection(value, questionId) {
+      userAnswers[questionId] = value;
+      
+      currentStep++;
+
+      if (currentStep < questions.length) {
+        renderQuestion();
+      } else {
+        showLoadingState();
+      }
+    }
+
+    // 4. Loading State before showing gifts
+    function showLoadingState() {
+      progressText.innerText = "Curating...";
+      container.innerHTML = `
+        <div class="flex flex-col items-center justify-center fade-in-up text-center">
+          <div class="text-6xl mb-6 animate-spin">✦</div>
+          <h1 class="font-serif text-4xl font-bold mb-2">Searching the Indie Database</h1>
+          <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Matching their vibe...</p>
+        </div>
+      `;
+      setTimeout(fetchAndDisplayGifts, 1500);
+    }
+
+    // 5. Fetch Database and Show Results
+    async function fetchAndDisplayGifts() {
       try {
-        // 1. Fetch your actual database!
         const response = await fetch('brands.json');
         const allBrands = await response.json();
 
-        // 2. Shuffle and pick 2 random gifts to simulate the AI thinking
-        const shuffled = allBrands.sort(() => 0.5 - Math.random());
-        const selectedGifts = shuffled.slice(0, 2);
-
-        // 3. Display them on the screen
-        selectedGifts.forEach((g, i) => {
-          setTimeout(() => {
-            history.innerHTML += `
-              <div class="gift-card cursor-pointer hover:shadow-lg" onclick="window.open('${g.url}', '_blank')">
-                <p class="font-sans font-bold text-coral uppercase tracking-widest text-xs mb-1">${g.category}</p>
-                <h3 class="font-serif font-bold text-2xl mb-1">${g.name}</h3>
-                <p class="font-sans font-bold text-ink/80 uppercase tracking-widest text-xs mb-3">${g.item}</p>
-                <p class="font-serif italic text-lg leading-relaxed mb-4">"${g.why}"</p>
-                <div class="flex justify-between items-center border-t border-ink/20 pt-4 mt-2">
-                  <span class="font-bold">${g.price}</span>
-                  <button class="bg-darkGreen text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">See Gift →</button>
-                </div>
-              </div>`;
-            history.scrollTop = history.scrollHeight;
-          }, i * 300);
+        // Filter based on the vibe they selected in Question 2
+        const selectedVibe = userAnswers['vibe'];
+        
+        let matchedGifts = allBrands.filter(g => {
+          const cat = g.category.toLowerCase();
+          if (selectedVibe === 'flower') return cat.includes("flower");
+          if (selectedVibe === 'art') return cat.includes("art");
+          if (selectedVibe === 'vinyl') return cat.includes("vinyl");
+          if (selectedVibe === 'game') return cat.includes("game");
+          if (selectedVibe === 'plush') return cat.includes("plush");
+          return false;
         });
-      } catch (error) {
-        console.error("Error loading gifts:", error);
-        history.innerHTML += `<div class="chat-bubble bubble-ai">Oops! I had trouble looking into my database. Let's try again later.</div>`;
-      }
-    } {
-      const gifts = [
-        { brand: "Old Giraffe Studio", item: "Hand-illustrated Dated Planner", why: "Because they love organizing their thoughts and appreciate beautiful, handmade paper goods.", price: "₹850" },
-        { brand: "Studio Kohl", item: "Contemporary Art Print", why: "For their aesthetic soul—this will look perfect in that quiet reading corner they love.", price: "₹1200" }
-      ];
 
-      gifts.forEach((g, i) => {
-        setTimeout(() => {
-          history.innerHTML += `
-            <div class="gift-card">
-              <h3 class="font-serif font-bold text-2xl mb-1">${g.brand}</h3>
-              <p class="font-sans font-bold text-ink/80 uppercase tracking-widest text-xs mb-3">${g.item}</p>
-              <p class="font-serif italic text-lg leading-relaxed mb-4">"${g.why}"</p>
-              <div class="flex justify-between items-center border-t border-ink/20 pt-4">
-                <span class="font-bold">${g.price}</span>
-                <button class="bg-darkGreen text-cream px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">See Gift →</button>
+        // Fallback just in case
+        if (matchedGifts.length === 0) matchedGifts = allBrands;
+
+        // Shuffle and pick top 3
+        const selectedGifts = matchedGifts.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+        progressText.innerText = "Your Results";
+        
+        // Build the Results UI
+        let resultsHtml = `
+          <div class="fade-in-up mb-8 text-center">
+            <h2 class="font-serif text-4xl font-bold mb-2">Here is what they will love.</h2>
+            <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Handpicked from Indian Indie Brands</p>
+          </div>
+          <div class="grid grid-cols-1 gap-6">
+        `;
+
+        selectedGifts.forEach((g, i) => {
+          resultsHtml += `
+            <div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up delay-${i+1} cursor-pointer flex flex-col justify-between" onclick="window.open('${g.url}', '_blank')">
+              <div>
+                <p class="font-sans font-bold text-darkGreen uppercase tracking-widest text-xs mb-2">${g.category}</p>
+                <h3 class="font-serif font-bold text-3xl mb-1">${g.name}</h3>
+                <p class="font-sans font-bold text-ink/80 uppercase tracking-widest text-sm mb-4">${g.item}</p>
+                <p class="font-serif italic text-lg leading-relaxed mb-6">"${g.why}"</p>
+              </div>
+              <div class="flex justify-between items-end border-t border-ink/20 pt-4">
+                <div>
+                  <p class="text-xs font-bold uppercase tracking-widest text-ink/60">Estimated</p>
+                  <span class="font-bold text-xl">${g.price}</span>
+                </div>
+                <button class="bg-darkGreen text-cream px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">Buy Gift →</button>
               </div>
             </div>`;
-          history.scrollTop = history.scrollHeight;
-        }, i * 300);
-      });
+        });
+
+        resultsHtml += `
+          </div>
+          <button onclick="location.reload()" class="mt-8 mx-auto block font-bold uppercase tracking-widest text-sm text-ink/60 hover:text-coral transition-colors">Start Over</button>
+        `;
+
+        container.innerHTML = resultsHtml;
+
+      } catch (error) {
+        console.error("Database error:", error);
+        container.innerHTML = `<h1 class="font-serif text-3xl font-bold text-center text-coral">Oops! Couldn't load the brands. Check if brands.json is correct!</h1>`;
+      }
     }
+
+    // Start the app
+    renderQuestion();
   </script>
 </body>
 </html>
