@@ -253,9 +253,41 @@
               </div>`;
           });
         }
-        resultsHtml += `</div><button onclick="location.reload()" class="mt-12 mx-auto block font-bold text-sm opacity-60">Start Over</button>`;
+        resultsHtml += `</div>
+        
+        <div id="followup-actions" class="mt-20 text-center w-full fade-in-up">
+          <h3 class="text-3xl font-serif text-ink mb-8 font-bold">Not quite right?</h3>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl mx-auto">
+            <button onclick="handleShowMore()" class="option-btn px-6 py-3 bg-cream border-2 border-ink text-ink font-sans font-bold rounded-xl hover:bg-lavender w-full sm:w-auto">
+              Show more options
+            </button>
+
+            <button onclick="handleDigDeeper()" class="option-btn px-6 py-3 bg-cream border-2 border-ink text-ink font-sans font-bold rounded-xl hover:bg-orange w-full sm:w-auto">
+              Dig deeper
+            </button>
+
+            <button onclick="handleRestart()" class="option-btn px-6 py-3 bg-darkGreen border-2 border-ink text-cream font-sans font-bold rounded-xl hover:bg-ink w-full sm:w-auto">
+              Gift someone else
+            </button>
+          </div>
+        </div>`;
         container.innerHTML = resultsHtml;
       } catch (e) { console.error(e); }
+    }
+    // --- Follow Up Functions ---
+    function handleShowMore() {
+      console.log("Fetching new options...");
+      alert("AI Trigger: Give me 3 DIFFERENT gift ideas using the same profile.");
+    }
+
+    function handleDigDeeper() {
+      console.log("Digging deeper...");
+      alert("AI Trigger: Ask a follow-up question to narrow down the vibe.");
+    }
+
+    function handleRestart() {
+      window.location.reload(); 
     }
     renderQuestion();
   </script>
