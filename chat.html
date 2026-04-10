@@ -22,148 +22,213 @@
   <style>
     body { background-color: #ffffeb; color: #1a1a1a; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
     .fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+    
+    /* Standard Button Styles */
     .option-btn { transition: all 0.2s ease; box-shadow: 4px 4px 0px #1a1a1a; }
     .option-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #1a1a1a; }
     .option-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
+    
+    /* Multi-Select Selected State */
+    .multi-selected { background-color: #ffa847 !important; color: #1a1a1a !important; border-color: #1a1a1a !important; transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a !important; }
+    
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
     .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
   </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen pb-24">
 
-  <header class="flex justify-between items-center p-6 border-b border-ink/10 bg-cream z-10">
+  <header class="flex justify-between items-center p-6 border-b border-ink/10 bg-cream z-10 sticky top-0">
     <a href="index.html" class="font-serif font-bold text-2xl lowercase hover:text-coral transition-colors">giftsense ✦</a>
-    <div id="progress-text" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Step 1 of 3</div>
+    <div id="progress-text" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Step 1</div>
   </header>
 
-  <main class="flex-1 flex flex-col justify-center max-w-3xl mx-auto w-full p-6" id="quiz-container">
+  <main class="flex-1 flex flex-col items-center max-w-4xl mx-auto w-full p-6" id="quiz-container">
     </main>
 
+  <div id="action-bar" class="fixed bottom-0 left-0 w-full bg-cream border-t border-ink/20 p-4 hidden justify-center gap-4 z-20">
+    <button id="skip-btn" onclick="goToNextStep()" class="hidden px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider text-ink/60 hover:text-ink transition-colors">Skip</button>
+    <button id="continue-btn" onclick="goToNextStep()" disabled class="bg-ink text-cream px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed hover:bg-darkGreen transition-colors shadow-[4px_4px_0px_#ffa847]">Continue →</button>
+  </div>
+
   <script>
-    // 1. Define the Quiz Questions & Options
+    // 1. The Massive Data Structure
     const questions = [
       {
-        id: "recipient",
-        title: "Who are we finding a gift for today?",
-        options: [
-          { label: "My Partner", icon: "❤️" },
-          { label: "A Friend", icon: "✌️" },
-          { label: "Family Member", icon: "🏠" },
-          { label: "Treating Myself", icon: "✨" }
-        ]
+        id: "occasion", type: "single", title: "What's the occasion?",
+        options: ["Valentine's Day", "Birthday", "Anniversary", "Wedding", "Housewarming", "New Job", "Festival", "Secret Santa", "Farewell", "New Born", "Just because", "Other"]
       },
       {
-        id: "vibe",
-        title: "What is their absolute favorite vibe?",
-        options: [
-          { label: "Cozy & Cute", desc: "Plushies, desk decor", value: "plush", icon: "🧸" },
-          { label: "Aesthetic Room", desc: "Art prints, posters", value: "art", icon: "🖼️" },
-          { label: "Game Night", desc: "Board games, strategy", value: "game", icon: "🎲" },
-          { label: "Old Soul", desc: "Vinyl records, music", value: "vinyl", icon: "🎵" },
-          { label: "Hopeless Romantic", desc: "Flowers, botanicals", value: "flower", icon: "💐" }
-        ]
+        id: "receiver", type: "single", title: "Who's the lucky receiver?", subtitle: "Tell me about them",
+        options: ["Partner", "Friend", "Sibling", "Parent", "Grandparent", "Son/Daughter", "Niece/Nephew", "Colleague", "Boss/Mentor", "Couple", "Myself", "Other"]
       },
       {
-        id: "budget",
-        title: "What does the budget look like?",
-        options: [
-          { label: "Keep it light", desc: "Under ₹1,500", icon: "💸" },
-          { label: "Sweet spot", desc: "₹1,500 - ₹4,000", icon: "💰" },
-          { label: "Going all out", desc: "Money is no object", icon: "💎" }
-        ]
+        id: "age", type: "single", title: "Age group",
+        options: ["Teens (13–19)", "20s", "30s", "40s", "50s", "60+"]
+      },
+      {
+        id: "gender", type: "single", title: "Gender",
+        options: ["Woman", "Man", "Non-binary"]
+      },
+      {
+        id: "interests", type: "multi", minSelect: 3, title: "What are they into?", subtitle: "Select at least 3 for better recommendations", gridClass: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+        options: ["Cooking/Baking", "Fitness/Sports", "Reading & Books", "Video Games", "Board Games", "Music", "Art/Crafts", "Gardening/Plants", "Home Decor", "Travel", "Outdoors/Hiking", "Photography", "Beauty/Skincare", "Movies/Series", "Cat Parent", "Dog Parent", "Writing/Journaling", "Yoga/Meditation", "Fashion", "Tech/Gadgets", "Cocktails/Wine", "Coffee", "Tea", "Anime/Manga", "Wellness/Spa", "Eco-Friendly", "K-pop/K-drama", "Pottery/Ceramics", "Content Creation", "DIY Projects", "Personal Development", "Collectibles/Plush", "Flowers/Botanicals", "Other"]
+      },
+      {
+        id: "budget", type: "multi", minSelect: 1, title: "What's your budget?", subtitle: "Select one or more",
+        options: ["Under ₹500", "₹500 – ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "₹3,000 – ₹5,000", "₹5,000 – ₹10,000", "₹10,000+"]
+      },
+      {
+        id: "avoid", type: "multi", minSelect: 0, title: "Anything to avoid?", subtitle: "Optional — skip if nothing comes to mind",
+        options: ["No candles", "Kills plants", "Doesn't drink", "Doesn't smoke", "No sweets", "No fragrance", "Picky about fashion", "Has skincare routine", "Other"]
       }
     ];
 
     let currentStep = 0;
-    let userAnswers = {}; // Stores the vibes they clicked
+    let userAnswers = {}; 
+    let currentMultiSelection = []; // Temporary array for multi-select screens
 
     const container = document.getElementById('quiz-container');
     const progressText = document.getElementById('progress-text');
+    const actionBar = document.getElementById('action-bar');
+    const continueBtn = document.getElementById('continue-btn');
+    const skipBtn = document.getElementById('skip-btn');
 
-    // 2. Render the current question
+    // 2. Render Question
     function renderQuestion() {
-      container.innerHTML = ''; // Clear screen
+      container.innerHTML = '';
+      currentMultiSelection = []; // Reset temp selection
       
       const q = questions[currentStep];
       progressText.innerText = `Step ${currentStep + 1} of ${questions.length}`;
 
-      // Build the Title
+      // Handle UI for Multi vs Single
+      if (q.type === 'multi') {
+        actionBar.style.display = 'flex';
+        continueBtn.disabled = q.minSelect > 0;
+        continueBtn.innerText = q.minSelect > 0 ? `Select ${q.minSelect} to Continue` : "Continue →";
+        
+        if (q.minSelect === 0) {
+          skipBtn.style.display = 'block';
+          continueBtn.style.display = 'none'; // Hide continue initially if optional
+        } else {
+          skipBtn.style.display = 'none';
+          continueBtn.style.display = 'block';
+        }
+      } else {
+        actionBar.style.display = 'none';
+      }
+
+      // Build HTML
       let html = `
-        <h1 class="font-serif text-4xl md:text-5xl font-bold mb-8 text-ink fade-in-up text-center leading-tight">
-          ${q.title}
-        </h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in-up delay-1">
+        <div class="text-center fade-in-up w-full">
+          <h1 class="font-serif text-4xl md:text-5xl font-bold mb-2 text-ink leading-tight">${q.title}</h1>
+          ${q.subtitle ? `<p class="font-sans font-bold text-ink/60 uppercase tracking-widest text-sm mb-8">${q.subtitle}</p>` : '<div class="mb-8"></div>'}
+        </div>
+        <div class="w-full grid gap-4 fade-in-up delay-1 ${q.gridClass || 'grid-cols-2 md:grid-cols-3'}">
       `;
 
-      // Build the Buttons
-      q.options.forEach((opt, index) => {
-        // If this is the 'vibe' question, we pass the specific value. Otherwise, just a generic pass.
-        const val = opt.value ? `'${opt.value}'` : `'general'`;
-        
-        html += `
-          <button onclick="handleSelection(${val}, '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-2xl p-6 text-left group hover:bg-coral transition-colors flex items-start gap-4">
-            <span class="text-3xl">${opt.icon}</span>
-            <div>
-              <div class="font-bold text-xl group-hover:text-cream transition-colors">${opt.label}</div>
-              ${opt.desc ? `<div class="text-sm font-medium text-ink/60 group-hover:text-cream/90 uppercase tracking-widest mt-1">${opt.desc}</div>` : ''}
-            </div>
-          </button>
-        `;
+      q.options.forEach((opt) => {
+        if (q.type === 'single') {
+          html += `<button onclick="handleSingleSelect('${opt}', '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-xl p-4 font-bold text-lg text-center hover:bg-lavender">${opt}</button>`;
+        } else {
+          html += `<button onclick="toggleMultiSelect('${opt}', this)" class="option-btn bg-cream border-2 border-ink rounded-xl p-4 font-bold text-base md:text-lg text-center hover:bg-lavender">${opt}</button>`;
+        }
       });
 
       html += `</div>`;
       container.innerHTML = html;
+      window.scrollTo(0,0);
     }
 
-    // 3. Handle when a user clicks a button
-    function handleSelection(value, questionId) {
+    // 3. Logic: Single Select
+    function handleSingleSelect(value, questionId) {
       userAnswers[questionId] = value;
-      
-      currentStep++;
+      advanceToNext();
+    }
 
+    // 4. Logic: Multi Select Toggle
+    function toggleMultiSelect(value, btnElement) {
+      const q = questions[currentStep];
+      
+      if (currentMultiSelection.includes(value)) {
+        // Remove it
+        currentMultiSelection = currentMultiSelection.filter(item => item !== value);
+        btnElement.classList.remove('multi-selected');
+      } else {
+        // Add it
+        currentMultiSelection.push(value);
+        btnElement.classList.add('multi-selected');
+      }
+
+      // Update button states
+      if (currentMultiSelection.length >= q.minSelect) {
+        continueBtn.disabled = false;
+        continueBtn.innerText = "Continue →";
+        continueBtn.style.display = 'block';
+        if (q.minSelect === 0) skipBtn.style.display = 'none'; // Hide skip if they started selecting
+      } else {
+        continueBtn.disabled = true;
+        continueBtn.innerText = `Select ${q.minSelect - currentMultiSelection.length} more`;
+        if (q.minSelect === 0 && currentMultiSelection.length === 0) {
+           skipBtn.style.display = 'block';
+           continueBtn.style.display = 'none';
+        }
+      }
+    }
+
+    // 5. Logic: Go to next step from Multi-Select
+    function goToNextStep() {
+      const q = questions[currentStep];
+      userAnswers[q.id] = [...currentMultiSelection];
+      advanceToNext();
+    }
+
+    function advanceToNext() {
+      currentStep++;
       if (currentStep < questions.length) {
         renderQuestion();
       } else {
+        actionBar.style.display = 'none'; // Hide action bar
         showLoadingState();
       }
     }
 
-    // 4. Loading State before showing gifts
+    // 6. Loading State
     function showLoadingState() {
       progressText.innerText = "Curating...";
       container.innerHTML = `
-        <div class="flex flex-col items-center justify-center fade-in-up text-center">
+        <div class="flex flex-col items-center justify-center fade-in-up text-center mt-20">
           <div class="text-6xl mb-6 animate-spin">✦</div>
-          <h1 class="font-serif text-4xl font-bold mb-2">Searching the Indie Database</h1>
-          <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Matching their vibe...</p>
+          <h1 class="font-serif text-4xl font-bold mb-2">Analyzing Profile</h1>
+          <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Scanning indie database...</p>
         </div>
       `;
-      setTimeout(fetchAndDisplayGifts, 1500);
+      setTimeout(fetchAndDisplayGifts, 2000);
     }
 
-    // 5. Fetch Database and Show Results
+    // 7. Fetch Database and Show Results
     async function fetchAndDisplayGifts() {
       try {
         const response = await fetch('brands.json');
         const allBrands = await response.json();
 
-        // Filter based on the vibe they selected in Question 2
-        const selectedVibe = userAnswers['vibe'];
+        // Retrieve their selected interests
+        const userInterests = userAnswers['interests'] || [];
         
+        // Match their interests to our database categories
         let matchedGifts = allBrands.filter(g => {
           const cat = g.category.toLowerCase();
-          if (selectedVibe === 'flower') return cat.includes("flower");
-          if (selectedVibe === 'art') return cat.includes("art");
-          if (selectedVibe === 'vinyl') return cat.includes("vinyl");
-          if (selectedVibe === 'game') return cat.includes("game");
-          if (selectedVibe === 'plush') return cat.includes("plush");
+          
+          if ((userInterests.includes("Flowers/Botanicals") || userInterests.includes("Gardening/Plants")) && cat.includes("flower")) return true;
+          if ((userInterests.includes("Art/Crafts") || userInterests.includes("Home Decor")) && cat.includes("art")) return true;
+          if ((userInterests.includes("Music")) && cat.includes("vinyl")) return true;
+          if ((userInterests.includes("Board Games")) && cat.includes("game")) return true;
+          if ((userInterests.includes("Collectibles/Plush") || userInterests.includes("Anime/Manga")) && cat.includes("plush")) return true;
+          
           return false;
         });
 
-        // Fallback just in case
+        // Fallback: If their interests don't perfectly match our 5 test categories, pick random gifts
         if (matchedGifts.length === 0) matchedGifts = allBrands;
 
         // Shuffle and pick top 3
@@ -173,35 +238,37 @@
         
         // Build the Results UI
         let resultsHtml = `
-          <div class="fade-in-up mb-8 text-center">
-            <h2 class="font-serif text-4xl font-bold mb-2">Here is what they will love.</h2>
-            <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Handpicked from Indian Indie Brands</p>
+          <div class="fade-in-up mb-8 text-center w-full">
+            <h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2>
+            <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Based on their profile</p>
           </div>
-          <div class="grid grid-cols-1 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
         `;
 
         selectedGifts.forEach((g, i) => {
           resultsHtml += `
-            <div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up delay-${i+1} cursor-pointer flex flex-col justify-between" onclick="window.open('${g.url}', '_blank')">
+            <div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up delay-1 cursor-pointer flex flex-col justify-between" onclick="window.open('${g.url}', '_blank')">
               <div>
                 <p class="font-sans font-bold text-darkGreen uppercase tracking-widest text-xs mb-2">${g.category}</p>
-                <h3 class="font-serif font-bold text-3xl mb-1">${g.name}</h3>
+                <h3 class="font-serif font-bold text-2xl mb-1">${g.name}</h3>
                 <p class="font-sans font-bold text-ink/80 uppercase tracking-widest text-sm mb-4">${g.item}</p>
-                <p class="font-serif italic text-lg leading-relaxed mb-6">"${g.why}"</p>
+                <p class="font-serif italic text-base leading-relaxed mb-6">"${g.why}"</p>
               </div>
-              <div class="flex justify-between items-end border-t border-ink/20 pt-4">
-                <div>
-                  <p class="text-xs font-bold uppercase tracking-widest text-ink/60">Estimated</p>
-                  <span class="font-bold text-xl">${g.price}</span>
+              <div class="border-t border-ink/20 pt-4 mt-auto">
+                <div class="flex justify-between items-end mb-4">
+                  <div>
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-ink/60">Estimated</p>
+                    <span class="font-bold text-lg">${g.price}</span>
+                  </div>
                 </div>
-                <button class="bg-darkGreen text-cream px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">Buy Gift →</button>
+                <button class="w-full bg-darkGreen text-cream py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">See Gift</button>
               </div>
             </div>`;
         });
 
         resultsHtml += `
           </div>
-          <button onclick="location.reload()" class="mt-8 mx-auto block font-bold uppercase tracking-widest text-sm text-ink/60 hover:text-coral transition-colors">Start Over</button>
+          <button onclick="location.reload()" class="mt-12 mx-auto block font-bold uppercase tracking-widest text-sm text-ink/60 hover:text-coral transition-colors">Start Over</button>
         `;
 
         container.innerHTML = resultsHtml;
