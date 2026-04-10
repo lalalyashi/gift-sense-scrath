@@ -27,7 +27,6 @@
     .option-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
     .multi-selected { background-color: #ffa847 !important; color: #1a1a1a !important; border-color: #1a1a1a !important; transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a !important; }
     @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-    .delay-1 { animation-delay: 0.1s; }
   </style>
 </head>
 <body class="flex flex-col min-h-screen pb-24">
@@ -64,7 +63,13 @@
       },
       {
         id: "interests", type: "multi", minSelect: 1, title: "What are they into?", subtitle: "Select one or more", gridClass: "grid-cols-1 md:grid-cols-2",
-        options: ["Flowers & Botanicals", "Collectible Plush", "Board Games", "Art Prints & Posters", "Vinyl Records"]
+        options: [
+            { name: "Flowers & Botanicals", icon: "🌸" },
+            { name: "Collectible Plush", icon: "🧸" },
+            { name: "Board Games", icon: "🎲" },
+            { name: "Art Prints & Posters", icon: "🎨" },
+            { name: "Vinyl Records", icon: "📻" }
+        ]
       },
       {
         id: "budget", type: "multi", minSelect: 1, title: "What's your budget?", subtitle: "Select one or more",
@@ -89,7 +94,6 @@
     function renderQuestion() {
       container.innerHTML = '';
       currentMultiSelection = []; 
-      
       const q = questions[currentStep];
       progressText.innerText = `Step ${currentStep + 1} of ${questions.length}`;
 
@@ -97,31 +101,26 @@
         actionBar.style.display = 'flex';
         continueBtn.disabled = q.minSelect > 0;
         continueBtn.innerText = q.minSelect > 0 ? `Select ${q.minSelect} to Continue` : "Continue →";
-        
-        if (q.minSelect === 0) {
-          skipBtn.style.display = 'block';
-          continueBtn.style.display = 'none'; 
-        } else {
-          skipBtn.style.display = 'none';
-          continueBtn.style.display = 'block';
-        }
+        q.minSelect === 0 ? (skipBtn.style.display = 'block', continueBtn.style.display = 'none') : (skipBtn.style.display = 'none', continueBtn.style.display = 'block');
       } else {
         actionBar.style.display = 'none';
       }
 
-      let html = `
-        <div class="text-center fade-in-up w-full">
+      let html = `<div class="text-center fade-in-up w-full">
           <h1 class="font-serif text-4xl md:text-5xl font-bold mb-2 text-ink leading-tight">${q.title}</h1>
           ${q.subtitle ? `<p class="font-sans font-bold text-ink/60 uppercase tracking-widest text-sm mb-8">${q.subtitle}</p>` : '<div class="mb-8"></div>'}
         </div>
-        <div class="w-full grid gap-4 fade-in-up delay-1 ${q.gridClass || 'grid-cols-2 md:grid-cols-3'}">
-      `;
+        <div class="w-full grid gap-4 fade-in-up ${q.gridClass || 'grid-cols-2 md:grid-cols-3'}">`;
 
       q.options.forEach((opt) => {
+        const isInterests = q.id === "interests";
+        const label = isInterests ? opt.name : opt;
+        const icon = isInterests ? `<span class="text-2xl mr-3">${opt.icon}</span>` : "";
+
         if (q.type === 'single') {
-          html += `<button onclick="handleSingleSelect('${opt}', '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-xl p-4 font-bold text-lg text-center hover:bg-lavender">${opt}</button>`;
+          html += `<button onclick="handleSingleSelect('${label}', '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-xl p-4 font-bold text-lg text-center flex items-center justify-center hover:bg-lavender">${icon}${label}</button>`;
         } else {
-          html += `<button onclick="toggleMultiSelect('${opt}', this)" class="option-btn bg-cream border-2 border-ink rounded-xl p-4 font-bold text-base md:text-lg text-center hover:bg-lavender">${opt}</button>`;
+          html += `<button onclick="toggleMultiSelect('${label}', this)" class="option-btn bg-cream border-2 border-ink rounded-xl p-4 font-bold text-base md:text-lg text-center flex items-center justify-center hover:bg-lavender">${icon}${label}</button>`;
         }
       });
 
@@ -137,7 +136,6 @@
 
     function toggleMultiSelect(value, btnElement) {
       const q = questions[currentStep];
-      
       if (currentMultiSelection.includes(value)) {
         currentMultiSelection = currentMultiSelection.filter(item => item !== value);
         btnElement.classList.remove('multi-selected');
@@ -162,30 +160,23 @@
     }
 
     function goToNextStep() {
-      const q = questions[currentStep];
-      userAnswers[q.id] = [...currentMultiSelection];
+      userAnswers[questions[currentStep].id] = [...currentMultiSelection];
       advanceToNext();
     }
 
     function advanceToNext() {
       currentStep++;
-      if (currentStep < questions.length) {
-        renderQuestion();
-      } else {
-        actionBar.style.display = 'none'; 
-        showLoadingState();
-      }
+      if (currentStep < questions.length) renderQuestion();
+      else { actionBar.style.display = 'none'; showLoadingState(); }
     }
 
     function showLoadingState() {
       progressText.innerText = "Curating...";
-      container.innerHTML = `
-        <div class="flex flex-col items-center justify-center fade-in-up text-center mt-20">
+      container.innerHTML = `<div class="flex flex-col items-center justify-center fade-in-up text-center mt-20">
           <div class="text-6xl mb-6 animate-spin">✦</div>
           <h1 class="font-serif text-4xl font-bold mb-2">Analyzing Profile</h1>
-          <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Running the smart algorithm...</p>
-        </div>
-      `;
+          <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Running smart algorithm...</p>
+        </div>`;
       setTimeout(fetchAndDisplayGifts, 2000);
     }
 
@@ -193,27 +184,20 @@
       try {
         const response = await fetch('brands.json');
         const allBrands = await response.json();
-
         const userInterests = userAnswers['interests'] || [];
         const userBudgets = userAnswers['budget'] || [];
         
-        // --- SMART SCORING ENGINE ---
         let scoredGifts = allBrands.map(g => {
           let score = 0;
           const cat = g.category.toLowerCase();
-          
-          // 1. Grade the Interests (+10 Points)
           if (userInterests.includes("Flowers & Botanicals") && cat.includes("flower")) score += 10;
           if (userInterests.includes("Art Prints & Posters") && cat.includes("art")) score += 10;
           if (userInterests.includes("Vinyl Records") && cat.includes("vinyl")) score += 10;
           if (userInterests.includes("Board Games") && cat.includes("game")) score += 10;
           if (userInterests.includes("Collectible Plush") && cat.includes("plush")) score += 10;
 
-          // 2. Grade the Budget (+5 Points)
-          // Extract the lowest number from the brand's price string (e.g. "₹1,500+" -> 1500)
-          const minPriceMatch = g.price.replace(/,/g, '').match(/\\d+/);
+          const minPriceMatch = g.price.replace(/,/g, '').match(/\d+/);
           const minPrice = minPriceMatch ? parseInt(minPriceMatch[0]) : 0;
-          
           let budgetMatch = false;
           if (userBudgets.includes("Under ₹500") && minPrice <= 500) budgetMatch = true;
           if (userBudgets.includes("₹500 – ₹1,000") && minPrice >= 400 && minPrice <= 1000) budgetMatch = true;
@@ -222,73 +206,34 @@
           if (userBudgets.includes("₹3,000 – ₹5,000") && minPrice >= 2900 && minPrice <= 5000) budgetMatch = true;
           if (userBudgets.includes("₹5,000 – ₹10,000") && minPrice >= 4900 && minPrice <= 10000) budgetMatch = true;
           if (userBudgets.includes("₹10,000+") && minPrice >= 9000) budgetMatch = true;
-          
           if (budgetMatch) score += 5;
-
           return { ...g, score };
         });
 
-        // Filter out brands that didn't match the interests at all (score < 10)
-        let matchedGifts = scoredGifts.filter(g => g.score >= 10);
-
-        // Sort by the highest score first
-        matchedGifts.sort((a, b) => b.score - a.score);
-
-        // Pick the top 3 most accurate
+        let matchedGifts = scoredGifts.filter(g => g.score >= 10).sort((a, b) => b.score - a.score);
         const selectedGifts = matchedGifts.slice(0, 3);
-
         progressText.innerText = "Your Results";
         
-        let resultsHtml = `
-          <div class="fade-in-up mb-8 text-center w-full">
-            <h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2>
-            <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Highest-scoring indie brands for you</p>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        `;
+        let resultsHtml = `<div class="fade-in-up mb-8 text-center w-full"><h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2></div><div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">`;
 
-        if (selectedGifts.length === 0) {
-           resultsHtml += `<p class="col-span-3 text-center font-bold text-xl py-10">We couldn't find a perfect match for that exact combo! Try expanding your budget.</p>`;
-        } else {
-          selectedGifts.forEach((g, i) => {
-            // Added a tiny "Accuracy Match" badge based on their score!
+        if (selectedGifts.length === 0) resultsHtml += `<p class="col-span-3 text-center">No matches found for this budget. Try a higher range!</p>`;
+        else {
+          selectedGifts.forEach(g => {
             const matchText = g.score === 15 ? "100% Match" : "Good Match";
-            
-            resultsHtml += `
-              <div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up delay-1 cursor-pointer flex flex-col justify-between relative overflow-hidden" onclick="window.open('${g.url}', '_blank')">
-                <div class="absolute top-0 right-0 bg-coral text-cream text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-bl-xl">${matchText}</div>
-                <div class="mt-2">
-                  <p class="font-sans font-bold text-darkGreen uppercase tracking-widest text-xs mb-2">${g.category}</p>
-                  <h3 class="font-serif font-bold text-2xl mb-1">${g.name}</h3>
-                  <p class="font-sans font-bold text-ink/80 uppercase tracking-widest text-sm mb-4">${g.item}</p>
-                  <p class="font-serif italic text-base leading-relaxed mb-6">"${g.why}"</p>
-                </div>
-                <div class="border-t border-ink/20 pt-4 mt-auto">
-                  <div class="flex justify-between items-end mb-4">
-                    <div>
-                      <p class="text-[10px] font-bold uppercase tracking-widest text-ink/60">Estimated</p>
-                      <span class="font-bold text-lg">${g.price}</span>
-                    </div>
-                  </div>
-                  <button class="w-full bg-darkGreen text-cream py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-ink transition-colors">See Gift</button>
-                </div>
+            resultsHtml += `<div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up relative cursor-pointer" onclick="window.open('${g.url}', '_blank')">
+                <div class="absolute top-0 right-0 bg-coral text-cream text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl">${matchText}</div>
+                <p class="font-sans font-bold text-darkGreen uppercase text-xs mb-2">${g.category}</p>
+                <h3 class="font-serif font-bold text-2xl mb-1">${g.name}</h3>
+                <p class="font-sans font-bold text-ink/80 text-sm mb-4">${g.item}</p>
+                <p class="font-serif italic mb-6">"${g.why}"</p>
+                <div class="border-t border-ink/20 pt-4"><span class="font-bold text-lg">${g.price}</span><button class="w-full mt-4 bg-darkGreen text-cream py-3 rounded-full text-sm font-bold uppercase">See Gift</button></div>
               </div>`;
           });
         }
-
-        resultsHtml += `
-          </div>
-          <button onclick="location.reload()" class="mt-12 mx-auto block font-bold uppercase tracking-widest text-sm text-ink/60 hover:text-coral transition-colors">Start Over</button>
-        `;
-
+        resultsHtml += `</div><button onclick="location.reload()" class="mt-12 mx-auto block font-bold text-sm opacity-60">Start Over</button>`;
         container.innerHTML = resultsHtml;
-
-      } catch (error) {
-        console.error("Database error:", error);
-        container.innerHTML = `<h1 class="font-serif text-3xl font-bold text-center text-coral">Oops! Couldn't load the brands. Check if brands.json is correct!</h1>`;
-      }
+      } catch (e) { console.error(e); }
     }
-
     renderQuestion();
   </script>
 </body>
