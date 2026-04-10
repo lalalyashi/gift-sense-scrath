@@ -104,6 +104,7 @@
     // ADVANCED ADDITION: Tracks how many gifts we've shown so we can page through them!
     let giftOffset = 0; 
     let totalMatchedGifts = 0;
+    let seenGifts = []; // <-- Added to track gifts we've already shown
 
     const container = document.getElementById('quiz-container');
     const progressText = document.getElementById('progress-text');
@@ -224,10 +225,17 @@
           // ADVANCED: Deep Dive Vibe Scoring!
           if (userAnswers['vibe']) {
             const vibe = userAnswers['vibe'];
-            if (vibe === 'Practical & Useful' && (text.includes('kit') || text.includes('set') || text.includes('everyday'))) score += 8;
-            if (vibe === 'Sentimental & Sweet' && (text.includes('memory') || text.includes('custom') || text.includes('keepsake'))) score += 8;
-            if (vibe === 'Quirky & Fun' && (text.includes('fun') || text.includes('game') || text.includes('unique'))) score += 8;
-            if (vibe === 'Luxury & Pampering' && (text.includes('premium') || text.includes('spa') || text.includes('silk'))) score += 8;
+            
+            // 1. Give a MASSIVE +50 point boost to force new items to the top, and added more keywords!
+            if (vibe === 'Practical & Useful' && (text.includes('kit') || text.includes('set') || text.includes('everyday') || text.includes('tool') || text.includes('organize') || text.includes('desk') || text.includes('bag'))) score += 50;
+            if (vibe === 'Sentimental & Sweet' && (text.includes('memory') || text.includes('custom') || text.includes('keepsake') || text.includes('photo') || text.includes('love') || text.includes('frame') || text.includes('art'))) score += 50;
+            if (vibe === 'Quirky & Fun' && (text.includes('fun') || text.includes('game') || text.includes('unique') || text.includes('puzzle') || text.includes('color') || text.includes('play') || text.includes('quirky'))) score += 50;
+            if (vibe === 'Luxury & Pampering' && (text.includes('premium') || text.includes('spa') || text.includes('silk') || text.includes('relax') || text.includes('candle') || text.includes('luxury') || text.includes('treat'))) score += 50;
+            
+            // 2. Penalize the gifts we already showed them so they don't repeat!
+            if (seenGifts.includes(g.name)) {
+              score -= 20; 
+            }
           }
 
           const minPriceMatch = g.price.replace(/,/g, '').match(/\d+/);
@@ -251,6 +259,12 @@
         
         // ADVANCED: Use the offset to slice the correct 3 gifts
         const selectedGifts = matchedGifts.slice(giftOffset, giftOffset + 3);
+
+        // Remember these gifts so we can banish them if they click "Dig Deeper"
+        selectedGifts.forEach(g => {
+          if (!seenGifts.includes(g.name)) seenGifts.push(g.name);
+        });
+
         progressText.innerText = "Your Results";
         
         let resultsHtml = `<div class="fade-in-up mb-8 text-center w-full"><h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2></div><div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">`;
