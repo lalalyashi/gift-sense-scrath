@@ -50,7 +50,10 @@
 
   <header class="flex justify-between items-center p-6 border-b border-ink/10 bg-cream z-10 sticky top-0">
     <a href="index.html" class="font-serif font-bold text-2xl lowercase hover:text-coral transition-colors">giftsense ✦</a>
-    <div id="progress-text" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Step 1</div>
+    <div class="flex items-center gap-4">
+      <button id="header-back-btn" onclick="QuizEngine.goToPreviousStep()" class="hidden text-sm font-bold uppercase tracking-widest text-ink/60 hover:text-ink transition-colors">← Back</button>
+      <div id="progress-text" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Step 1</div>
+    </div>
   </header>
 
   <main class="flex-1 flex flex-col items-center max-w-4xl mx-auto w-full p-6" id="quiz-container"></main>
@@ -69,7 +72,6 @@
         const toast = document.getElementById('error-toast');
         toast.innerText = message;
         toast.classList.remove('hidden');
-        // Small delay to allow display:block to apply before animating opacity
         setTimeout(() => toast.classList.remove('opacity-0'), 10);
         
         setTimeout(() => {
@@ -140,7 +142,7 @@
         const text = `${gift.category} ${gift.item} ${gift.why}`.toLowerCase();
         const cat = gift.category.toLowerCase();
 
-        // Factor 1: Category & Interest Alignment (Max ~65 points)
+        // Factor 1: Category & Interest Alignment
         const interests = userProfile.interests || [];
         if (interests.includes("Flowers & Botanicals") && (cat.includes("flower") || text.includes("plant"))) score += 30;
         if (interests.includes("Art Prints & Posters") && (cat.includes("art") || text.includes("print"))) score += 30;
@@ -148,7 +150,7 @@
         if (interests.includes("Board Games") && (cat.includes("game") || text.includes("play"))) score += 30;
         if (interests.includes("Collectible Plush") && (cat.includes("plush") || text.includes("toy"))) score += 30;
 
-        // Factor 2: Budget Match (Max 20 points)
+        // Factor 2: Budget Match
         const minPriceMatch = gift.price.replace(/,/g, '').match(/\d+/);
         const minPrice = minPriceMatch ? parseInt(minPriceMatch[0]) : 0;
         const budgets = userProfile.budget || [];
@@ -164,14 +166,14 @@
         
         if (isBudgetMatch) score += 20;
 
-        // Factor 3: Vibe Boost (Max 15 points)
+        // Factor 3: Vibe Boost
         if (userProfile.vibe) {
           const keywords = this.vibeKeywords[userProfile.vibe] || [];
           const matchesVibe = keywords.some(kw => text.includes(kw));
           if (matchesVibe) score += 15;
         }
 
-        // Factor 4: Avoidance Penalties (-25 points each)
+        // Factor 4: Avoidance Penalties
         const avoidances = userProfile.avoid || [];
         if (avoidances.includes("No candles") && text.includes("candle")) score -= 25;
         if (avoidances.includes("Kills plants") && text.includes("plant")) score -= 25;
@@ -179,12 +181,11 @@
         if (avoidances.includes("No sweets") && (text.includes("chocolate") || text.includes("sweet"))) score -= 25;
 
         // Factor 5: Repetition Decay
-        // If they already saw it, crush the score by 70% so fresh items rise to top
         if (seenGifts.includes(gift.name)) {
           score = score * 0.3; 
         }
 
-        return Math.round(Math.max(score, 0)); // Ensure score doesn't go below 0
+        return Math.round(Math.max(score, 0));
       }
     };
 
@@ -192,21 +193,20 @@
     // MODULE 4: Main Application Engine
     // ==========================================
     const QuizEngine = {
-      // State
       currentStep: 0,
       userAnswers: {},
       currentMultiSelection: [],
       seenGifts: [],
       giftOffset: 0,
       totalMatchedGifts: 0,
-      brandsCache: null, // Performance: Cache network requests
+      brandsCache: null, 
       
-      // DOM Elements
       container: document.getElementById('quiz-container'),
       progressText: document.getElementById('progress-text'),
       actionBar: document.getElementById('action-bar'),
       continueBtn: document.getElementById('continue-btn'),
       skipBtn: document.getElementById('skip-btn'),
+      backBtn: document.getElementById('header-back-btn'),
 
       init() {
         this.renderQuestion();
@@ -215,18 +215,32 @@
       renderQuestion() {
         try {
           this.container.innerHTML = '';
-          this.currentMultiSelection = []; 
           const q = QuestionBank.questions[this.currentStep];
           
           if (!q) throw new Error("Question index out of bounds");
+          
+          // ADDED: Restore selections if navigating back!
+          if (q.type === 'multi') {
+            this.currentMultiSelection = this.userAnswers[q.id] ? [...this.userAnswers[q.id]] : [];
+          }
+
+          // ADDED: Show/Hide Back Button
+          this.backBtn.style.display = this.currentStep > 0 ? 'block' : 'none';
           
           this.progressText.innerText = `Step ${this.currentStep + 1} of ${QuestionBank.questions.length}`;
 
           if (q.type === 'multi') {
             this.actionBar.style.display = 'flex';
-            this.continueBtn.disabled = q.minSelect > 0;
-            this.continueBtn.innerText = q.minSelect > 0 ? `Select ${q.minSelect} to Continue` : "Continue →";
-            q.minSelect === 0 ? (this.skipBtn.style.display = 'block', this.continueBtn.style.display = 'none') : (this.skipBtn.style.display = 'none', this.continueBtn.style.display = 'block');
+            this.continueBtn.disabled = q.minSelect > 0 && this.currentMultiSelection.length < q.minSelect;
+            this.continueBtn.innerText = this.currentMultiSelection.length >= q.minSelect ? "Continue →" : `Select ${q.minSelect - this.currentMultiSelection.length} more`;
+            
+            if (q.minSelect === 0 && this.currentMultiSelection.length === 0) {
+               this.skipBtn.style.display = 'block';
+               this.continueBtn.style.display = 'none';
+            } else {
+               this.skipBtn.style.display = 'none';
+               this.continueBtn.style.display = 'block';
+            }
           } else {
             this.actionBar.style.display = 'none';
           }
@@ -243,10 +257,17 @@
             const icon = isInterests ? opt.icon : "";
             const layoutClass = isInterests ? "flex-col p-4 group" : "p-4";
 
+            // ADDED: Visual Memory (Keeps button orange if already selected)
+            let isSelected = false;
+            if (q.type === 'single') isSelected = this.userAnswers[q.id] === label;
+            else isSelected = this.currentMultiSelection.includes(label);
+            
+            const activeClass = isSelected ? 'multi-selected' : '';
+
             if (q.type === 'single') {
-              html += `<button onclick="QuizEngine.handleSingleSelect('${label}', '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-xl font-bold text-lg text-center flex items-center justify-center hover:bg-lavender ${layoutClass}">${icon}<span>${label}</span></button>`;
+              html += `<button onclick="QuizEngine.handleSingleSelect('${label}', '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-xl font-bold text-lg text-center flex items-center justify-center hover:bg-lavender ${layoutClass} ${activeClass}">${icon}<span>${label}</span></button>`;
             } else {
-              html += `<button onclick="QuizEngine.toggleMultiSelect('${label}', this)" class="option-btn bg-cream border-2 border-ink rounded-xl font-bold text-base md:text-lg text-center flex items-center justify-center hover:bg-lavender ${layoutClass}">${icon}<span>${label}</span></button>`;
+              html += `<button onclick="QuizEngine.toggleMultiSelect('${label}', this)" class="option-btn bg-cream border-2 border-ink rounded-xl font-bold text-base md:text-lg text-center flex items-center justify-center hover:bg-lavender ${layoutClass} ${activeClass}">${icon}<span>${label}</span></button>`;
             }
           });
 
@@ -291,14 +312,25 @@
       },
 
       goToNextStep() {
-        this.userAnswers[QuestionBank.questions[this.currentStep].id] = [...this.currentMultiSelection];
+        if (QuestionBank.questions[this.currentStep].type === 'multi') {
+            this.userAnswers[QuestionBank.questions[this.currentStep].id] = [...this.currentMultiSelection];
+        }
         this.currentStep++;
         
         if (this.currentStep < QuestionBank.questions.length) {
           this.renderQuestion();
         } else { 
           this.actionBar.style.display = 'none'; 
+          this.backBtn.style.display = 'none';
           this.showLoadingState(); 
+        }
+      },
+
+      // ADDED: Back Logic
+      goToPreviousStep() {
+        if (this.currentStep > 0) {
+          this.currentStep--;
+          this.renderQuestion();
         }
       },
 
@@ -310,33 +342,29 @@
             <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Running smart algorithm...</p>
           </div>`;
         
-        // Artificial delay for UX
         setTimeout(() => this.fetchAndDisplayGifts(), 1500);
       },
 
       async fetchAndDisplayGifts() {
         try {
-          // IMPLEMENTED: Caching Layer
           if (!this.brandsCache) {
-            const response = await fetch('brands.json');
+            // ADDED: Cache Buster (?t=timestamp) so GitHub Pages never serves a stale brands.json file
+            const url = 'brands.json?t=' + new Date().getTime();
+            const response = await fetch(url);
             if (!response.ok) throw new Error("Failed to load gift database");
             this.brandsCache = await response.json();
           }
 
-          // Generate scores using the new ML-inspired engine
           let scoredGifts = this.brandsCache.map(gift => ({
             ...gift,
             score: GiftScoringEngine.calculateScore(gift, this.userAnswers, this.seenGifts)
           }));
 
-          // Threshold based filtering
           let matchedGifts = scoredGifts.filter(g => g.score >= 15).sort((a, b) => b.score - a.score);
           this.totalMatchedGifts = matchedGifts.length;
           
-          // Pagination
           const selectedGifts = matchedGifts.slice(this.giftOffset, this.giftOffset + 3);
 
-          // Update Seen History
           selectedGifts.forEach(g => {
             if (!this.seenGifts.includes(g.name)) this.seenGifts.push(g.name);
           });
@@ -386,7 +414,6 @@
         
         resultsHtml += `</div>`;
         
-        // Actions
         resultsHtml += `
         <div id="followup-actions" class="mt-20 text-center w-full fade-in-up">
           <h3 class="text-3xl font-serif text-ink mb-8 font-bold">Not quite right?</h3>
@@ -443,7 +470,6 @@
       }
     };
 
-    // Boot Application
     QuizEngine.init();
   </script>
 </body>
