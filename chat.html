@@ -1,285 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GiftSense ✦ | Find the Perfect Gift</title>
-    <style>
-        :root {
-            --bg-color: #f8f9fa;
-            --chat-bg: #ffffff;
-            --primary: #000000;
-            --text-main: #1a1a1a;
-            --text-muted: #6c757d;
-            --bot-bubble: #f1f3f5;
-            --user-bubble: #000000;
-            --user-text: #ffffff;
-            --accent: #ff4757;
-            --border: #e9ecef;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftSense | Questionnaire</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            darkGreen: "#055047", ink: "#1a1a1a", cream: "#ffffeb",
+            lavender: "#efd5ff", orange: "#ffa847", coral: "#ff6b4c"
+          },
+          fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"DM Sans"', 'sans-serif'] }
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        #app-container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--chat-bg);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-
-        header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: -0.5px;
-        }
-
-        header a {
-            text-decoration: none;
-            color: var(--primary);
-        }
-
-        #chat-window {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .bot-message {
-            background-color: var(--bot-bubble);
-            color: var(--text-main);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .user-message {
-            background-color: var(--user-bubble);
-            color: var(--user-text);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        #options-container {
-            padding: 20px;
-            background: var(--chat-bg);
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .option-btn {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .option-btn:hover {
-            border-color: var(--primary);
-            background: var(--bot-bubble);
-        }
-
-        /* Gift Cards UI */
-        .gift-card {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 10px;
-            width: 260px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            text-align: left;
-        }
-
-        .gift-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .gift-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-        }
-
-        .gift-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .gift-price {
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-        }
-
-        .gift-link {
-            display: block;
-            text-align: center;
-            background: var(--primary);
-            color: #fff;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .gift-link:hover {
-            background: #333;
-        }
-
-        .typing-indicator {
-            display: none;
-            align-self: flex-start;
-            background-color: var(--bot-bubble);
-            padding: 12px 16px;
-            border-radius: 18px;
-            border-bottom-left-radius: 4px;
-        }
-
-        .typing-indicator span {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background-color: #adb5bd;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-    </style>
-</head>
-<body>
-
-<div id="app-container">
-    <header>
-        <a href="index.html">giftsense ✦</a>
-    </header>
-
-    <div id="chat-window">
-        <div id="typing" class="typing-indicator">
-            <span></span><span></span><span></span>
-        </div>
-    </div>
-
-    <div id="options-container">
-        </div>
-</div>
-
-<script>
-    // ==========================================
-    // MODULE 1: State & Data
-    // ==========================================
-    let giftDatabase = [];
-    let seenGifts = [];
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --transition-duration: 0.2s;
+      --box-shadow-sm: 2px 2px 0px #1a1a1a;
+      --box-shadow-md: 4px 4px 0px #1a1a1a;
+      --box-shadow-lg: 6px 6px 0px #1a1a1a;
+    }
+    body { background-color: #ffffeb; color: #1a1a1a; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    .fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
     
-    // The exact object structure the new V2 engine expects
-    let userAnswers = {
-        occasion: "",
-        receiver: "",
-        age: "",
-        gender: "", 
-        interests: [],
-        budget: [],
-        avoid: [],
-        vibe: ""
+    .option-btn { transition: all var(--transition-duration) ease; box-shadow: var(--box-shadow-md); }
+    .option-btn:hover { transform: translate(-2px, -2px); box-shadow: var(--box-shadow-lg); }
+    .option-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
+    .multi-selected { background-color: #ffa847 !important; color: #1a1a1a !important; border-color: #1a1a1a !important; transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a !important; }
+    
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen pb-24 relative">
+
+  <div id="error-toast" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-coral text-cream px-6 py-3 rounded-full font-bold shadow-lg z-50 transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    Error Message
+  </div>
+
+  <header class="flex justify-between items-center p-6 border-b border-ink/10 bg-cream z-10 sticky top-0">
+    <a href="index.html" class="font-serif font-bold text-2xl lowercase hover:text-coral transition-colors">giftsense ✦</a>
+    <div class="flex items-center gap-4">
+      <button id="header-back-btn" onclick="QuizEngine.goToPreviousStep()" class="hidden text-sm font-bold uppercase tracking-widest text-ink/60 hover:text-ink transition-colors">← Back</button>
+      <div id="progress-text" class="text-sm font-bold uppercase tracking-widest text-darkGreen">Step 1</div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col items-center max-w-4xl mx-auto w-full p-6" id="quiz-container"></main>
+
+  <div id="action-bar" class="fixed bottom-0 left-0 w-full bg-cream border-t border-ink/20 p-4 hidden justify-center gap-4 z-20">
+    <button id="skip-btn" onclick="QuizEngine.goToNextStep()" class="hidden px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider text-ink/60 hover:text-ink transition-colors">Skip</button>
+    <button id="continue-btn" onclick="QuizEngine.goToNextStep()" disabled class="bg-ink text-cream px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed hover:bg-darkGreen transition-colors shadow-[4px_4px_0px_#ffa847]">Continue →</button>
+  </div>
+
+  <script>
+    // ==========================================
+    // MODULE 1: Error Handler
+    // ==========================================
+    const ErrorHandler = {
+      display(message, duration = 4000) {
+        const toast = document.getElementById('error-toast');
+        toast.innerText = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.remove('opacity-0'), 10);
+        
+        setTimeout(() => {
+          toast.classList.add('opacity-0');
+          setTimeout(() => toast.classList.add('hidden'), 300);
+        }, duration);
+      },
+      log(message, level = 'error') {
+        console[level](`[GiftSense ${level.toUpperCase()}]: ${message}`);
+      }
     };
 
-    let currentQuestionIndex = 0;
-
-    // The Quiz Flow mapped exactly to the Engine
-    const quizFlow = [
+    // ==========================================
+    // MODULE 2: Question Bank (YOUR VISUAL UI)
+    // ==========================================
+    const QuestionBank = {
+      questions: [
         {
-            key: "occasion",
-            question: "What's the occasion?",
-            options: ["Valentine's Day", "Anniversary", "Housewarming", "Secret Santa", "Birthday", "Just Because"]
+          id: "occasion", type: "single", title: "What's the occasion?", subtitle: "Select one",
+          options: ["Valentine's Day", "Birthday", "Anniversary", "Wedding", "Housewarming", "New Job", "Festival", "Secret Santa", "Farewell", "New Born", "Just because", "Other"]
         },
         {
-            key: "receiver",
-            question: "Who are we shopping for?",
-            options: ["Partner", "Friend", "Colleague", "Family", "Couple", "Self"]
+          id: "receiver", type: "single", title: "Who's the lucky receiver?", subtitle: "Tell me about them",
+          options: ["Partner", "Friend", "Sibling", "Parent", "Grandparent", "Son/Daughter", "Niece/Nephew", "Colleague", "Boss/Mentor", "Couple", "Myself", "Other"]
         },
         {
-            key: "age",
-            question: "Roughly how old are they?",
-            options: ["Teens (13–19)", "20s", "30s", "40s", "50s", "60+"]
+          id: "age", type: "single", title: "Age group", subtitle: "Select one",
+          options: ["Teens (13–19)", "20s", "30s", "40s", "50s", "60+"]
         },
         {
-            key: "interests",
-            question: "What are they into? (Pick their main vibe)",
-            options: ["Flowers & Botanicals", "Art Prints & Posters", "Vinyl Records", "Board Games", "Collectible Plush"]
+          id: "gender", type: "single", title: "Gender", subtitle: "Select one",
+          options: ["Woman", "Man", "Non-binary"]
         },
         {
-            key: "budget",
-            question: "What's your budget?",
-            options: ["Under ₹500", "₹500 – ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "₹3,000 – ₹5,000", "₹5,000 – ₹10,000", "₹10,000+"]
+          id: "interests", type: "multi", minSelect: 1, title: "What are they into?", subtitle: "Select one or more", gridClass: "grid-cols-2 lg:grid-cols-3",
+          options: [
+              { name: "Flowers & Botanicals", icon: `<img src="1-removebg-preview.png" alt="Flowers" class="w-full h-24 md:h-32 object-contain transition-transform duration-300 group-hover:scale-110 mb-3" />` },
+              { name: "Collectible Plush", icon: `<img src="2-removebg-preview.png" alt="Plush" class="w-full h-24 md:h-32 object-contain transition-transform duration-300 group-hover:scale-110 mb-3" />` },
+              { name: "Board Games", icon: `<img src="3-removebg-preview (1).png" alt="Games" class="w-full h-24 md:h-32 object-contain transition-transform duration-300 group-hover:scale-110 mb-3" />` },
+              { name: "Art Prints & Posters", icon: `<img src="4-removebg-preview.png" alt="Art" class="w-full h-24 md:h-32 object-contain transition-transform duration-300 group-hover:scale-110 mb-3" />` },
+              { name: "Vinyl Records", icon: `<img src="3-removebg-preview.png" alt="Vinyl" class="w-full h-24 md:h-32 object-contain transition-transform duration-300 group-hover:scale-110 mb-3" />` }
+          ]
         },
         {
-            key: "avoid",
-            question: "Anything we should absolutely avoid?",
-            options: ["No candles", "Kills plants", "Doesn't drink", "No sweets", "None of these"]
+          id: "budget", type: "multi", minSelect: 1, title: "What's your budget?", subtitle: "Select one or more",
+          options: ["Under ₹500", "₹500 – ₹1,000", "₹1,000 – ₹2,000", "₹2,000 – ₹3,000", "₹3,000 – ₹5,000", "₹5,000 – ₹10,000", "₹10,000+"]
         },
         {
-            key: "vibe",
-            question: "Lastly, what's the overall feeling of the gift?",
-            options: ["Practical & Useful", "Sentimental & Sweet", "Quirky & Fun", "Luxury & Pampering"]
+          id: "avoid", type: "multi", minSelect: 0, title: "Anything to avoid?", subtitle: "Optional — skip if nothing comes to mind",
+          options: ["No candles", "Kills plants", "Doesn't drink", "Doesn't smoke", "No sweets", "No fragrance", "Picky about fashion", "Has skincare routine", "Other"]
         }
-    ];
+      ]
+    };
 
     // ==========================================
-    // MODULE 2: Advanced Scoring Engine (V2)
+    // MODULE 3: Advanced Scoring Engine V2 (THE NEW BRAIN)
     // ==========================================
     const GiftScoringEngine = {
       vibeKeywords: {
@@ -321,7 +169,7 @@
         }
         if (age === "50s" || age === "60+") {
             if (cat.includes("flower") || cat.includes("record") || text.includes("classic")) score += 15;
-            if (cat.includes("plush") && !text.includes("timeless")) score -= 15;
+            if (cat.includes("plush") && !text.includes("timeless")) score -= 15; 
         }
 
         // Factor 3: Budget Match
@@ -359,8 +207,8 @@
         if (avoidances.includes("No sweets") && (text.includes("chocolate") || text.includes("sweet"))) score -= 50;
 
         // Factor 6: Repetition Decay
-        if (seenGifts.includes(gift.item)) {
-          score = score * 0.1;
+        if (seenGifts.includes(gift.name)) {
+          score = score * 0.1; 
         }
 
         return Math.round(Math.max(score, 0));
@@ -368,170 +216,281 @@
     };
 
     // ==========================================
-    // MODULE 3: UI & Flow Control
+    // MODULE 4: Main Application Engine
     // ==========================================
-    const chatWindow = document.getElementById('chat-window');
-    const optionsContainer = document.getElementById('options-container');
-    const typingIndicator = document.getElementById('typing');
+    const QuizEngine = {
+      currentStep: 0,
+      userAnswers: {},
+      currentMultiSelection: [],
+      seenGifts: [],
+      giftOffset: 0,
+      totalMatchedGifts: 0,
+      brandsCache: null, 
+      
+      container: document.getElementById('quiz-container'),
+      progressText: document.getElementById('progress-text'),
+      actionBar: document.getElementById('action-bar'),
+      continueBtn: document.getElementById('continue-btn'),
+      skipBtn: document.getElementById('skip-btn'),
+      backBtn: document.getElementById('header-back-btn'),
 
-    function appendMessage(text, sender) {
-        const msgDiv = document.createElement('div');
-        msgDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
-        msgDiv.innerText = text;
-        chatWindow.insertBefore(msgDiv, typingIndicator);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
+      init() {
+        this.renderQuestion();
+      },
 
-    function renderOptions(options) {
-        optionsContainer.innerHTML = '';
-        options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.classList.add('option-btn');
-            btn.innerText = opt;
-            btn.onclick = () => handleAnswer(opt);
-            optionsContainer.appendChild(btn);
-        });
-    }
+      renderQuestion() {
+        try {
+          this.container.innerHTML = '';
+          const q = QuestionBank.questions[this.currentStep];
+          
+          if (!q) throw new Error("Question index out of bounds");
+          
+          if (q.type === 'multi') {
+            this.currentMultiSelection = this.userAnswers[q.id] ? [...this.userAnswers[q.id]] : [];
+          }
 
-    function showTyping() {
-        typingIndicator.style.display = 'flex';
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
+          this.backBtn.style.display = this.currentStep > 0 ? 'block' : 'none';
+          this.progressText.innerText = `Step ${this.currentStep + 1} of ${QuestionBank.questions.length}`;
 
-    function hideTyping() {
-        typingIndicator.style.display = 'none';
-    }
+          if (q.type === 'multi') {
+            this.actionBar.style.display = 'flex';
+            this.continueBtn.disabled = q.minSelect > 0 && this.currentMultiSelection.length < q.minSelect;
+            this.continueBtn.innerText = this.currentMultiSelection.length >= q.minSelect ? "Continue →" : `Select ${q.minSelect - this.currentMultiSelection.length} more`;
+            
+            if (q.minSelect === 0 && this.currentMultiSelection.length === 0) {
+               this.skipBtn.style.display = 'block';
+               this.continueBtn.style.display = 'none';
+            } else {
+               this.skipBtn.style.display = 'none';
+               this.continueBtn.style.display = 'block';
+            }
+          } else {
+            this.actionBar.style.display = 'none';
+          }
 
-    function handleAnswer(answer) {
-        optionsContainer.innerHTML = ''; // clear buttons
-        appendMessage(answer, 'user');
+          let html = `<div class="text-center fade-in-up w-full">
+              <h1 class="font-serif text-4xl md:text-5xl font-bold mb-2 text-ink leading-tight">${q.title}</h1>
+              ${q.subtitle ? `<p class="font-sans font-bold text-ink/60 uppercase tracking-widest text-sm mb-8">${q.subtitle}</p>` : '<div class="mb-8"></div>'}
+            </div>
+            <div class="w-full grid gap-4 fade-in-up ${q.gridClass || 'grid-cols-2 md:grid-cols-3'}">`;
+
+          q.options.forEach((opt) => {
+            const isInterests = q.id === "interests";
+            const label = isInterests ? opt.name : opt;
+            const icon = isInterests ? opt.icon : "";
+            const layoutClass = isInterests ? "flex-col p-4 group" : "p-4";
+
+            let isSelected = false;
+            if (q.type === 'single') isSelected = this.userAnswers[q.id] === label;
+            else isSelected = this.currentMultiSelection.includes(label);
+            
+            const activeClass = isSelected ? 'multi-selected' : '';
+
+            if (q.type === 'single') {
+              html += `<button onclick="QuizEngine.handleSingleSelect('${label}', '${q.id}')" class="option-btn bg-cream border-2 border-ink rounded-xl font-bold text-lg text-center flex items-center justify-center hover:bg-lavender ${layoutClass} ${activeClass}">${icon}<span>${label}</span></button>`;
+            } else {
+              html += `<button onclick="QuizEngine.toggleMultiSelect('${label}', this)" class="option-btn bg-cream border-2 border-ink rounded-xl font-bold text-base md:text-lg text-center flex items-center justify-center hover:bg-lavender ${layoutClass} ${activeClass}">${icon}<span>${label}</span></button>`;
+            }
+          });
+
+          html += `</div>`;
+          this.container.innerHTML = html;
+          window.scrollTo(0,0);
+        } catch (error) {
+          ErrorHandler.log(error.message);
+          ErrorHandler.display("Sorry, we encountered an issue loading this question.");
+        }
+      },
+
+      handleSingleSelect(value, questionId) {
+        this.userAnswers[questionId] = value;
+        this.goToNextStep();
+      },
+
+      toggleMultiSelect(value, btnElement) {
+        const q = QuestionBank.questions[this.currentStep];
         
-        const currentQ = quizFlow[currentQuestionIndex];
-        
-        // Format arrays properly for the engine
-        if (["interests", "budget", "avoid"].includes(currentQ.key)) {
-            userAnswers[currentQ.key] = [answer]; 
+        if (this.currentMultiSelection.includes(value)) {
+          this.currentMultiSelection = this.currentMultiSelection.filter(item => item !== value);
+          btnElement.classList.remove('multi-selected');
         } else {
-            userAnswers[currentQ.key] = answer;
+          this.currentMultiSelection.push(value);
+          btnElement.classList.add('multi-selected');
         }
 
-        currentQuestionIndex++;
-        showTyping();
+        if (this.currentMultiSelection.length >= q.minSelect) {
+          this.continueBtn.disabled = false;
+          this.continueBtn.innerText = "Continue →";
+          this.continueBtn.style.display = 'block';
+          if (q.minSelect === 0) this.skipBtn.style.display = 'none'; 
+        } else {
+          this.continueBtn.disabled = true;
+          this.continueBtn.innerText = `Select ${q.minSelect - this.currentMultiSelection.length} more`;
+          if (q.minSelect === 0 && this.currentMultiSelection.length === 0) {
+             this.skipBtn.style.display = 'block';
+             this.continueBtn.style.display = 'none';
+          }
+        }
+      },
 
-        setTimeout(() => {
-            hideTyping();
-            if (currentQuestionIndex < quizFlow.length) {
-                askQuestion();
-            } else {
-                generateRecommendations();
-            }
-        }, 800); // 800ms typing delay
-    }
+      goToNextStep() {
+        if (QuestionBank.questions[this.currentStep].type === 'multi') {
+            this.userAnswers[QuestionBank.questions[this.currentStep].id] = [...this.currentMultiSelection];
+        }
+        this.currentStep++;
+        
+        if (this.currentStep < QuestionBank.questions.length) {
+          this.renderQuestion();
+        } else { 
+          this.actionBar.style.display = 'none'; 
+          this.backBtn.style.display = 'none';
+          this.showLoadingState(); 
+        }
+      },
 
-    function askQuestion() {
-        const q = quizFlow[currentQuestionIndex];
-        appendMessage(q.question, 'bot');
-        renderOptions(q.options);
-    }
+      goToPreviousStep() {
+        if (this.currentStep > 0) {
+          this.currentStep--;
+          this.renderQuestion();
+        }
+      },
 
-    // ==========================================
-    // MODULE 4: Results Generation
-    // ==========================================
-    function generateRecommendations() {
-        appendMessage("Running the GiftSense algorithm...", "bot");
-        showTyping();
+      showLoadingState() {
+        this.progressText.innerText = "Curating...";
+        this.container.innerHTML = `<div class="flex flex-col items-center justify-center fade-in-up text-center mt-20">
+            <div class="text-6xl mb-6 animate-spin">✦</div>
+            <h1 class="font-serif text-4xl font-bold mb-2">Analyzing Profile</h1>
+            <p class="font-sans font-bold text-ink/60 uppercase tracking-widest">Running smart algorithm...</p>
+          </div>`;
+        
+        setTimeout(() => this.fetchAndDisplayGifts(), 1500);
+      },
 
-        setTimeout(() => {
-            hideTyping();
-            
-            // Score all gifts
-            let scoredGifts = giftDatabase.map(gift => {
-                return {
-                    ...gift,
-                    matchScore: GiftScoringEngine.calculateScore(gift, userAnswers, seenGifts)
-                };
-            });
-
-            // Sort by highest score
-            scoredGifts.sort((a, b) => b.matchScore - a.matchScore);
-            
-            // Get top 3
-            const topGifts = scoredGifts.slice(0, 3);
-
-            if (topGifts.length === 0 || topGifts[0].matchScore === 0) {
-                appendMessage("I couldn't find a perfect match. Try adjusting your budget or interests!", "bot");
-                renderOptions(["Restart Quiz"]);
-                currentQuestionIndex = 0; // reset hack
-                return;
-            }
-
-            appendMessage("Here are my top recommendations for you:", "bot");
-            
-            // Render Cards
-            topGifts.forEach(gift => {
-                seenGifts.push(gift.item); // mark as seen
-                
-                const card = document.createElement('div');
-                card.classList.add('bot-message', 'gift-card');
-                card.innerHTML = `
-                    <span class="gift-tag">${gift.category} • Match: ${gift.matchScore}</span>
-                    <h3 class="gift-title">${gift.item}</h3>
-                    <p class="gift-price">${gift.price}</p>
-                    <p class="gift-desc">${gift.why}</p>
-                    <a href="${gift.link}" target="_blank" class="gift-link">View Product</a>
-                `;
-                chatWindow.insertBefore(card, typingIndicator);
-            });
-
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-
-            // Show More / Restart Options
-            renderOptions(["Show me more options", "Start Over"]);
-            
-            // Override handleAnswer for post-quiz options
-            optionsContainer.childNodes.forEach(btn => {
-                btn.onclick = () => {
-                    if (btn.innerText === "Start Over") {
-                        location.reload();
-                    } else {
-                        optionsContainer.innerHTML = '';
-                        appendMessage("Show me more options", "user");
-                        showTyping();
-                        setTimeout(() => { hideTyping(); generateRecommendations(); }, 800);
-                    }
-                };
-            });
-
-        }, 1500);
-    }
-
-    // ==========================================
-    // INITIALIZATION
-    // ==========================================
-    async function initApp() {
-        showTyping();
+      async fetchAndDisplayGifts() {
         try {
-            const response = await fetch('brands.json');
-            if (!response.ok) throw new Error("Network response was not ok");
-            giftDatabase = await response.json();
-            
-            hideTyping();
-            appendMessage("Welcome to GiftSense. Let's find a gift that doesn't suck.", "bot");
-            
-            setTimeout(() => {
-                askQuestion();
-            }, 600);
+          if (!this.brandsCache) {
+            const url = 'brands.json?t=' + new Date().getTime();
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Failed to load gift database");
+            this.brandsCache = await response.json();
+          }
+
+          let scoredGifts = this.brandsCache.map(gift => ({
+            ...gift,
+            score: GiftScoringEngine.calculateScore(gift, this.userAnswers, this.seenGifts)
+          }));
+
+          let matchedGifts = scoredGifts.filter(g => g.score >= 15).sort((a, b) => b.score - a.score);
+          this.totalMatchedGifts = matchedGifts.length;
+          
+          const selectedGifts = matchedGifts.slice(this.giftOffset, this.giftOffset + 3);
+
+          selectedGifts.forEach(g => {
+            if (!this.seenGifts.includes(g.name)) this.seenGifts.push(g.name);
+          });
+
+          this.progressText.innerText = "Your Results";
+          this.renderResultsUI(selectedGifts);
 
         } catch (error) {
-            hideTyping();
-            appendMessage("Error loading database. Please make sure brands.json is uploaded.", "bot");
-            console.error("Fetch error:", error);
+          ErrorHandler.log(error.message);
+          ErrorHandler.display("Unable to load matches. Please check your connection.");
+          this.container.innerHTML = `
+            <div class="text-center mt-20">
+              <h1 class="font-serif text-3xl font-bold mb-4">Something went wrong</h1>
+              <button onclick="QuizEngine.fetchAndDisplayGifts()" class="option-btn px-6 py-3 bg-darkGreen text-cream rounded-xl font-bold">Try Again</button>
+            </div>
+          `;
         }
-    }
+      },
 
-    // Start
-    window.onload = initApp;
+      renderResultsUI(selectedGifts) {
+        let resultsHtml = `<div class="fade-in-up mb-8 text-center w-full"><h2 class="font-serif text-4xl font-bold mb-2">The Perfect Matches</h2></div><div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">`;
 
-</script>
+        if (selectedGifts.length === 0) {
+          if (this.giftOffset === 0) {
+            resultsHtml += `<p class="col-span-3 text-center font-bold text-ink/60 p-10">No strong matches found for this exact profile. Try adjusting your preferences!</p>`;
+          } else {
+            resultsHtml += `<p class="col-span-3 text-center font-bold text-ink/60 p-10">You've seen all our best matches! Try "Digging deeper" to shift the vibe.</p>`;
+          }
+        } else {
+          selectedGifts.forEach(g => {
+            const matchText = g.score >= 40 ? "Top Match" : "Good Match";
+            resultsHtml += `<div class="bg-lavender border-2 border-ink rounded-2xl p-6 option-btn fade-in-up relative cursor-pointer flex flex-col justify-between" onclick="window.open('${g.url}', '_blank')">
+                <div class="absolute top-0 right-0 bg-coral text-cream text-[10px] font-bold uppercase px-3 py-1 rounded-bl-xl">${matchText}</div>
+                <div class="mt-2">
+                  <p class="font-sans font-bold text-darkGreen uppercase tracking-widest text-xs mb-2">${g.category}</p>
+                  <h3 class="font-serif font-bold text-2xl mb-1">${g.name}</h3>
+                  <p class="font-sans font-bold text-ink/80 text-sm mb-4">${g.item}</p>
+                  <p class="font-serif italic text-base leading-relaxed mb-6">"${g.why}"</p>
+                </div>
+                <div class="border-t border-ink/20 pt-4 mt-auto">
+                  <span class="font-bold text-lg">${g.price}</span>
+                  <button class="w-full mt-4 bg-darkGreen text-cream py-3 rounded-full text-sm font-bold uppercase hover:bg-ink transition-colors">See Gift</button>
+                </div>
+              </div>`;
+          });
+        }
+        
+        resultsHtml += `</div>`;
+        
+        resultsHtml += `
+        <div id="followup-actions" class="mt-20 text-center w-full fade-in-up">
+          <h3 class="text-3xl font-serif text-ink mb-8 font-bold">Not quite right?</h3>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl mx-auto">`;
+            
+        if (this.giftOffset + 3 < this.totalMatchedGifts) {
+          resultsHtml += `<button onclick="QuizEngine.handleShowMore()" class="option-btn px-6 py-3 bg-cream border-2 border-ink text-ink font-sans font-bold rounded-xl hover:bg-lavender w-full sm:w-auto">Show more options</button>`;
+        }
+
+        resultsHtml += `
+            <button onclick="QuizEngine.handleDigDeeper()" class="option-btn px-6 py-3 bg-cream border-2 border-ink text-ink font-sans font-bold rounded-xl hover:bg-orange w-full sm:w-auto">Dig deeper</button>
+            <button onclick="QuizEngine.handleRestart()" class="option-btn px-6 py-3 bg-darkGreen border-2 border-ink text-cream font-sans font-bold rounded-xl hover:bg-ink w-full sm:w-auto">Gift someone else</button>
+          </div>
+        </div>`;
+        
+        this.container.innerHTML = resultsHtml;
+        window.scrollTo(0,0);
+      },
+
+      handleShowMore() {
+        this.giftOffset += 3; 
+        this.showLoadingState();
+        window.scrollTo(0, 0);
+      },
+
+      handleDigDeeper() {
+        this.progressText.innerText = "Digging Deeper";
+        this.container.innerHTML = `
+          <div class="text-center fade-in-up w-full max-w-2xl mx-auto mt-10">
+            <h1 class="font-serif text-4xl md:text-5xl font-bold mb-4 text-ink leading-tight">Let's refine this 🕵️‍♀️</h1>
+            <p class="font-sans font-bold text-ink/60 uppercase tracking-widest text-sm mb-10">What is their primary vibe?</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <button onclick="QuizEngine.submitDigDeeper('Practical & Useful')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Practical & Useful</button>
+              <button onclick="QuizEngine.submitDigDeeper('Sentimental & Sweet')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Sentimental & Sweet</button>
+              <button onclick="QuizEngine.submitDigDeeper('Quirky & Fun')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Quirky & Fun</button>
+              <button onclick="QuizEngine.submitDigDeeper('Luxury & Pampering')" class="option-btn bg-cream border-2 border-ink rounded-2xl font-bold text-xl p-8 text-center hover:bg-lavender">Luxury & Pampering</button>
+            </div>
+            
+            <button onclick="QuizEngine.showLoadingState()" class="mt-12 font-bold text-sm uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-coral transition-all">← Cancel & Go Back</button>
+          </div>
+        `;
+        window.scrollTo(0, 0);
+      },
+
+      submitDigDeeper(vibe) {
+        this.userAnswers['vibe'] = vibe; 
+        this.giftOffset = 0; 
+        this.showLoadingState(); 
+      },
+
+      handleRestart() {
+        window.location.reload(); 
+      }
+    };
+
+    QuizEngine.init();
+  </script>
 </body>
 </html>
